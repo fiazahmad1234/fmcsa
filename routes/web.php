@@ -16,7 +16,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
         Route::get('dashboard', function () {
     return view('dashboard');
-});
+    });
+
+
+ 
     Route::get('trucker', function () {
     return view('emails.trucker');
 });
@@ -40,7 +43,7 @@ Route::resource('subject',SubjectController::class)->except(['show']);
 });
 use App\Http\Controllers\FmcsaController;
 // Search Form View
-Route::get('/', [FmcsaController::class, 'index']);
+Route::get('extract-data', [FmcsaController::class, 'index'])->name('extract-data');
 Route::post('/fetch', [FmcsaController::class, 'fetch'])->name('fmcsa.fetch');
 Route::post('/export', [FmcsaController::class, 'export'])->name('fmcsa.export');
 
@@ -49,6 +52,9 @@ use App\Http\Controllers\EmailSenderController;
 
 Route::get('/email-upload', [EmailSenderController::class, 'index'])->name('email-upload');
 Route::post('/send-emails', [EmailSenderController::class, 'sendEmails'])->name('send.emails');
+      Route::get('', function () {
+    return view('home');
+});
 
 
 require __DIR__.'/admin.php';

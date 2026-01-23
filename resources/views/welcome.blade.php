@@ -99,7 +99,9 @@
         letter-spacing: 0.05rem;
         padding: 1.25rem 1rem;
         border-bottom: 2px solid #e2e8f0;
-    }
+    }.card.shadow-lg.border-0 {
+  margin-top: 120px !important;
+}
 </style>
 </head>
 <body>
