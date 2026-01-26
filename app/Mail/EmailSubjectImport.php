@@ -1,25 +1,31 @@
 <?php
 
-namespace App\Mail;
+namespace App\Imports;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\ToCollection;
 
-class SimpleMail extends Mailable
+class EmailSubjectImport implements ToCollection
 {
-    use Queueable, SerializesModels;
+    public $emails = []; // Stores emails and subjects
 
-    public $messageText;
-
-    public function __construct($messageText)
+    public function collection(Collection $rows)
     {
-        $this->messageText = $messageText;
-    }
+        foreach ($rows as $index => $row) {
+            // Skip header row
+            if ($index === 0 && strtolower($row[0]) === 'email') {
+                continue;
+            }
 
-    public function build()
-    {
-        return $this->subject('Test Email from Laravel')
-                    ->view('simple');
+            $email = trim($row[0] ?? '');
+            $subject = trim($row[1] ?? '');
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $this->emails[] = [
+                    'email'   => $email,
+                    'subject' => $subject ?: "New Dispatch Available",
+                ];
+            }
+        }
     }
 }

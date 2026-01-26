@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash; 
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\SimpleMail;
 // ✅ Add this
 
 
@@ -39,9 +37,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials,$remember)) {
             $request->session()->regenerate();
           $user = auth()->user();
-             Mail::to('fiazahmad13072@gmail.com')->send(
-        new SimpleMail('This is a test email from Laravel.')
-    );
+        
 
 $now = Carbon::now('Asia/Karachi');
 $today = $now->toDateString();

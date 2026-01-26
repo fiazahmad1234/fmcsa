@@ -55,6 +55,9 @@ Route::post('/send-emails', [EmailSenderController::class, 'sendEmails'])->name(
       Route::get('', function () {
     return view('home');
 });
+Route::post('/emails/export', [FmcsaController::class, 'exportEmailsExcel'])->name('emails.export');
+
+
 
 
 require __DIR__.'/admin.php';

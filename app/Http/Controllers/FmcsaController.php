@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Pool;
 use Maatwebsite\Excel\Facades\Excel; // ✅ Import this
 use App\Exports\DotDataExport;  
+use App\Exports\EmailSubjectExport;  
+
 
 class FmcsaController extends Controller
 {
@@ -17,7 +19,8 @@ class FmcsaController extends Controller
 
     public function fetch(Request $request)
     {
-        ini_set('max_execution_time', 1200); // allow long running requests
+        ini_set('max_execution_time', 1800);
+        ini_set('memory_limit', '512M'); // allow long running requests
 
         // Validate input
         $request->validate([
@@ -161,4 +164,16 @@ class FmcsaController extends Controller
 
         return Excel::download(new DotDataExport($allData), 'fmcsa_carriers.xlsx');
     }
+     public function exportEmailsExcel(Request $request)
+    {
+               $allData = $request->session()->get('allData');
+
+
+        if (empty($allData)) {
+            return redirect()->back()->with('error', 'No data found to export');
+        }
+
+        return Excel::download(new EmailSubjectExport($allData), 'emails_subjects.xlsx');
+    }
+
 }

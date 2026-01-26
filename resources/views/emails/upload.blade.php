@@ -3,12 +3,12 @@
 @section('title', 'Upload Excel to Send Emails')
 
 @section('content')
-<div style="display: flex; justify-content: center; align-items: center; min-height: 70vh; background-color: #f2f4f8; padding: 20px;">
+<div class="main-banner"  style="display: flex; justify-content: center; align-items: center; min-height: 70vh; background-color: #f2f4f8; padding: 20px;">
 
     <div style="background-color: #ffffff; border-radius: 12px; padding: 40px; width: 100%; max-width: 600px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); text-align: center; font-family: Arial, sans-serif;">
 
         <!-- Heading -->
-        <h1 style="color: #0202aa; font-size: 26px; margin-bottom: 10px;">Upload Excel File</h1>
+        <h2 style="color: #030303; font-size: 26px; margin-bottom: 10px;">Upload Excel File</h2>
         <p style="color: #555555; font-size: 16px; margin-bottom: 25px;">
             Select your Excel file to send emails to all recipients.
         </p>

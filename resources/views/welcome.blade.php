@@ -112,12 +112,12 @@
             <small>Enter DOT numbers to fetch data</small>
         </div>
         <div class="card-body">
-      <form method="POST" action="{{ route('fmcsa.fetch') }}">
+      <form  id="queryForm" method="POST" action="{{ route('fmcsa.fetch') }}">
     @csrf
     <div class="row g-3 align-items-end">
         <!-- Start DOT -->
         <div class="col-md-5">
-            <label class="form-label fw-bold text-secondary">Start DOT #</label>
+            <label class="form-label fw-bold text-secondary">Start MC #</label>
             <div class="input-group shadow-sm">
                 <span class="input-group-text bg-light border-2 border-end-0 text-muted">
                     <i class="bi bi-play-circle"></i>
@@ -128,7 +128,7 @@
 
         <!-- End DOT -->
         <div class="col-md-5">
-            <label class="form-label fw-bold text-secondary">End DOT #</label>
+            <label class="form-label fw-bold text-secondary">End MC #</label>
             <div class="input-group shadow-sm">
                 <span class="input-group-text bg-light border-2 border-end-0 text-muted">
                     <i class="bi bi-stop-circle"></i>
@@ -140,7 +140,7 @@
         <!-- Fetch Button -->
         <div class="col-md-2 d-grid">
             <button type="submit" class="btn btn-primary btn-lg shadow-sm p-1">
-                <i class="bi bi-lightning-charge-fill "></i>FETCH DATA
+                <i class="bi bi-lightning-charge-fill "></i>FETCH
             </button>
         </div>
     </div>
@@ -148,8 +148,19 @@
 
 
     </div>
-        </div>
-    
+</div>
+
+    <!-- Loading Spinner -->
+
+        <div id="loading" class="text-center py-5" style="display: none;">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3 fs-5">Fetching data, please wait...</p>
+</div>
+
+    <div id="dataTableContainer">
+
 @if(isset($allData) && count($allData) > 0)
 <div class="container-fluid py-4 px-0">
     <div class=" card card-custom border-none">
@@ -261,8 +272,9 @@
     </div>
 </div>
 @else
-    <p class="mt-5">Please enter a DOT number to fetch carrier data.</p>
+    <p class="mt-5">Please enter a MC number to fetch carrier data.</p>
 @endif
+</div>
 @if(isset($allData) && count($allData) > 0)
 <form method="POST" action="{{ route('fmcsa.export') }}" class="d-inline">
     @csrf
@@ -275,9 +287,33 @@
         Export Data
     </button>
 </form>
+
+ @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
+    <form method="POST" action="{{ route('emails.export') }}" class="d-inline">
+        @csrf
+        <input type="hidden" name="export_data" value='@json($allData)'>
+        <button type="submit" class="btn btn-success shadow-sm">
+            <i class="bi bi-file-earmark-excel-fill me-1"></i>
+            Export Emails
+        </button>
+    </form>
+
 @endif
 
 </div>
+<script>
+    const form = document.getElementById('queryForm');
+    form.addEventListener('submit', function() {
+        // Show spinner
+        document.getElementById('loading').style.display = 'block';
+        // Hide table while processing
+        document.getElementById('dataTableContainer').style.display = 'none';
+    });
+</script>
+
 </body>
 </html>
 @endsection
