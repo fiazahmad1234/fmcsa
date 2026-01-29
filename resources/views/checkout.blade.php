@@ -8,9 +8,9 @@
             <div class="card mt-5 shadow-lg border-0 rounded-4">
                 <div class="card-body p-5">
                     <!-- Stripe Logo -->
-                    <div class="text-center">
-                        <h3 class="mt-3 fw-bold">Secure Payment</h3>
-                        <p class="text-muted fs-6">Checkout</p>
+                    <div class="text-center mb-5">
+                        <h3 class="mt-3 fw-bold">Checkout</h3>
+                        <!-- <p class="text-muted fs-6">Checkout</p> -->
                     </div>
 
                     <!-- Flash Messages -->
@@ -26,8 +26,10 @@
                         <div class="col-md-8">
                             <form id="payment-form" method="POST" action="{{ route('checkout.process') }}">
                                 @csrf
-
-                                <h4 class="mb-4 fw-bold text-black">Billing Details</h4>
+                            <div class="section-heading">
+                                        <h2> <span>Billing<span> <em>Details</em></h2>
+                                    </div> 
+                                <!-- <h4 class="mb-4 fw-bold text-black">Billing Details</h4> -->
 
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Full Name</label>
@@ -58,13 +60,42 @@
                         <!-- RIGHT COLUMN (col-md-4) -->
                         <div class="col-md-4">
                             <div class="p-4 border rounded-4 shadow-sm bg-white h-100">
-                                <h4 class="fw-bold mb-4 text-black">Payment Method</h4>
+                                     <div class="section-heading">
+                                        <h2> <span>Payment<span> <em>Method</em></h2>
+                                    </div> 
 
                                 <div class="mb-3">
                                     <label class="form-label fw-bold">Card Details</label>
                                     <div id="card-element" class="form-control p-3 rounded-3 shadow-sm"></div>
                                     <div id="card-errors" role="alert" class="text-danger mt-2 small"></div>
                                 </div>
+                                <div class="d-flex align-items-center gap-3 mt-3">
+                                <span class="text-muted small fw-bold">We accept:</span>
+
+                                <i class="fa-brands fa-cc-visa fa-2x text-primary"></i>
+
+                                <i class="fa-brands fa-cc-mastercard fa-2x" style="color:#EB001B"></i>
+
+                                <i class="fa-brands fa-cc-amex fa-2x" style="color:#2E77BC"></i>
+
+                                <i class="fa-brands fa-cc-discover fa-2x" style="color:#FF6000"></i>
+                            </div>
+                            <div class="form-check mt-4">
+    <input 
+        class="form-check-input" 
+        type="checkbox" 
+        id="accept_policy" 
+        required
+    >
+    <label class="form-check-label small text-muted" for="accept_policy">
+        I agree that my payment and personal data will be processed securely in accordance with the 
+        <a href="#" class="text-decoration-none fw-bold">Privacy Policy</a> 
+        and 
+        <a href="#" class="text-decoration-none fw-bold">Terms & Conditions</a>.
+    </label>
+</div>
+
+
 
                                 <input type="hidden" name="payment_method_id" id="payment_method_id">
 
@@ -80,8 +111,8 @@
                                 <div class="d-flex justify-content-center mt-3 gap-3">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" height="30">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" height="30">
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe Logo" height="40">
-</div>
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe Logo" height="40">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -169,5 +200,14 @@ button.btn-primary:hover {
 .bg-light {
     background-color: #ffffff !important;
 }
+.fa-brands {
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.fa-brands:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
 </style>
 @endsection
