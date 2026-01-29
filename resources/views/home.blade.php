@@ -14,7 +14,7 @@
               <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
                 <h6>Welcome to Space Dynamic</h6>
                 <h2>We Make <em> Dispatching</em> &amp; <span>Easy</span> Reliable</h2>
-                <p>Space Dynamic is a professional looking HTML template using a Bootstrap 5 (beta 2). This CSS template is free for you provided by <a rel="nofollow" href="https://templatemo.com/page/1" target="_parent">TemplateMo</a>.</p>
+                <p>Track & Go Dispatch is a professional truck dispatching platform designed to streamline logistics and fleet management <a rel="nofollow" href="https://templatemo.com/page/1" target="_parent">TemTrack & GoplateMo</a>.</p>
                 <form id="search" action="#" method="GET">
                   <fieldset>
                     <input type="address" name="address" class="email" placeholder="Your website URL..." autocomplete="on" required>
@@ -37,6 +37,75 @@
     </div>
   </div>
 
+
+<div class="container py-5 text-center">
+  
+  <div class="mb-5">
+    <h1 class="main-heading">
+      Check Out Our <span class="text-trending">Trending</span>
+      Special <span class="text-news">Offers</span>
+    </h1>
+  </div>
+
+  <div class="row g-4 justify-content-center">
+    
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm p-4 offer-card">
+        <div class="card-body d-flex flex-column">
+          <div class="display-6 mb-2 text-muted"><i class="bi bi-unlock"></i></div>
+          <h5 class="fw-bold text-uppercase small tracking-widest text-secondary">Free Plan</h5>
+          <h2 class="price-tag">Free</h2>
+          <p class="feature-text text-muted">Essential access to basic tools where you can <strong>fetch number data</strong> instantly.</p>
+<a href="/checkout" class="btn btn-outline-dark w-100 rounded-pill mt-auto">
+    Get Started
+</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm p-4 offer-card">
+        <div class="card-body d-flex flex-column">
+          <div class="display-6 mb-2 text-trending"><i class="bi bi-person-badge"></i></div>
+          <h5 class="fw-bold text-uppercase small text-secondary">Pro Lead</h5>
+          <h2 class="price-tag">$50</h2>
+          <p class="feature-text text-muted">Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.</p>
+  <a href="/checkout" 
+               class="btn btn-outline-primary w-100 rounded-pill mt-auto">
+                Choose Pro
+            </a>        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 shadow-lg p-4 offer-card border-0" style="background: #ffffff;">
+        <div class="card-body d-flex flex-column">
+          <div class="display-6 mb-2 text-news"><i class="bi bi-envelope-paper-heart"></i></div>
+          <h5 class="fw-bold text-uppercase small text-secondary">Business</h5>
+          <h2 class="price-tag text-news">$100</h2>
+          <p class="feature-text text-muted">Full communication suite to <strong>send unlimited emails</strong> from a single account.</p>
+          <a href="/checkout"  class="btn btn-danger w-100 rounded-pill mt-auto" style="background-color: #ff4d4d; border: none;">Go Business</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 shadow-sm p-4 offer-card bg-dark text-white">
+        <div class="card-body d-flex flex-column">
+          <div class="display-6 mb-2 text-info"><i class="bi bi-cpu-fill"></i></div>
+          <h5 class="fw-bold text-uppercase small text-info">Automation</h5>
+          <h2 class="price-tag">$150</h2>
+          <p class="feature-text text-light opacity-75">Scale up with <strong>auto-emails across multiple accounts</strong> with 1-minute intervals.</p>
+          <a href="/checkout"  class="btn btn-info w-100 rounded-pill mt-auto">Unlock Elite</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
   <div id="about" class="about-us section">
     <div class="container">
       <div class="row">
@@ -54,8 +123,8 @@
                     <img src="assets/images/service-icon-01.png" alt="reporting">
                   </div>
                   <div class="right-text">
-                    <h4>Data Analysis</h4>
-                    <p>Lorem ipsum dolor sit amet, ctetur aoi adipiscing eliter</p>
+                    <h4>Dispatch Reporting</h4>
+                    <p>We provide reliable dispatch reports to track loads performance easily</p>
                   </div>
                 </div>
               </div>
@@ -65,8 +134,8 @@
                     <img src="assets/images/service-icon-02.png" alt="">
                   </div>
                   <div class="right-text">
-                    <h4>Data Reporting</h4>
-                    <p>Lorem ipsum dolor sit amet, ctetur aoi adipiscing eliter</p>
+                    <h4>Load Management</h4>
+                    <p>We manage your loads efficiently to ensure booking and on-time deliveries.</p>
                   </div>
                 </div>
               </div>
@@ -76,8 +145,8 @@
                     <img src="assets/images/service-icon-03.png" alt="">
                   </div>
                   <div class="right-text">
-                    <h4>Web Analytics</h4>
-                    <p>Lorem ipsum dolor sit amet, ctetur aoi adipiscing eliter</p>
+                    <h4>Fleet Tracking</h4>
+                    <p>We help monitor your trucks in real time for better control and transparency</p>
                   </div>
                 </div>
               </div>
@@ -87,8 +156,8 @@
                     <img src="assets/images/service-icon-04.png" alt="">
                   </div>
                   <div class="right-text">
-                    <h4>SEO Suggestions</h4>
-                    <p>Lorem ipsum dolor sit amet, ctetur aoi adipiscing eliter</p>
+                    <h4>Dispatch Support</h4>
+                    <p>We offer easy-to-use dispatch solutions that save time and simplify operations.</p>
                   </div>
                 </div>
               </div>
@@ -109,21 +178,21 @@
         </div>
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.2s">
           <div class="section-heading">
-            <h2>Grow your website with our <em>SEO</em> service &amp; <span>Project</span> Ideas</h2>
-            <p>Space Dynamic HTML5 template is free to use for your website projects. However, you are not permitted to redistribute the template ZIP file on any CSS template collection websites. Please contact us for more information. Thank you for your kind cooperation.</p>
+            <h2>Grow your business with our <em>website</em> service &amp; <span>Project</span> Ideas</h2>
+            <p>Our platform helps you collect, organize, and manage trucker contact details easily. You can access verified email addresses and phone numbers, store them securely, and use them for smooth communication and outreach with trusted industry accuracy.</p>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="first-bar progress-skill-bar">
-                <h4>Website Analysis</h4>
-                <span>84%</span>
+                <h4>Email Deliverability</h4>
+                <span>85%</span>
                 <div class="filled-bar"></div>
                 <div class="full-bar"></div>
               </div>
             </div>
             <div class="col-lg-12">
               <div class="second-bar progress-skill-bar">
-                <h4>SEO Reports</h4>
+                <h4>Data Fetching</h4>
                 <span>88%</span>
                 <div class="filled-bar"></div>
                 <div class="full-bar"></div>
@@ -131,8 +200,8 @@
             </div>
             <div class="col-lg-12">
               <div class="third-bar progress-skill-bar">
-                <h4>Page Optimizations</h4>
-                <span>94%</span>
+                <h4>Error Detection</h4>
+                <span>90%</span>
                 <div class="filled-bar"></div>
                 <div class="full-bar"></div>
               </div>
@@ -157,8 +226,8 @@
           <a href="#">
             <div class="item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.3s">
               <div class="hidden-content">
-                <h4>SEO Analysis</h4>
-                <p>Lorem ipsum dolor sit ameti ctetur aoi adipiscing eto.</p>
+                 <h4>Data Fetching</h4>
+                  <p>Our tool collects all carrier information quickly and reliably.</p>
               </div>
               <div class="showed-content">
                 <img src="assets/images/portfolio-image.png" alt="">
@@ -170,8 +239,8 @@
           <a href="#">
             <div class="item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.4s">
               <div class="hidden-content">
-                <h4>Website Reporting</h4>
-                <p>Lorem ipsum dolor sit ameti ctetur aoi adipiscing eto.</p>
+                <h4>Email Sending</h4>
+                  <p>Send emails to carriers efficiently with automated and verified tools.</p>
               </div>
               <div class="showed-content">
                 <img src="assets/images/portfolio-image.png" alt="">
@@ -183,8 +252,8 @@
           <a href="#">
             <div class="item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.5s">
               <div class="hidden-content">
-                <h4>Performance Tests</h4>
-                <p>Lorem ipsum dolor sit ameti ctetur aoi adipiscing eto.</p>
+                <h4>Data Analysis</h4>
+                 <p>Analyze carrier data for better planning, reporting, and decision-making.</p>
               </div>
               <div class="showed-content">
                 <img src="assets/images/portfolio-image.png" alt="">
@@ -196,8 +265,8 @@
           <a href="#">
             <div class="item wow bounceInUp" data-wow-duration="1s" data-wow-delay="0.6s">
               <div class="hidden-content">
-                <h4>Data Analysis</h4>
-                <p>Lorem ipsum dolor sit ameti ctetur aoi adipiscing eto.</p>
+                 <h4>Fast Operations</h4>
+                 <p>Streamline your workflow and speed up all dispatch and communication tasks.</p>
               </div>
               <div class="showed-content">
                 <img src="assets/images/portfolio-image.png" alt="">
@@ -230,12 +299,12 @@
             <div class="info">
               <div class="inner-content">
                 <ul>
-                  <li><i class="fa fa-calendar"></i> 24 Mar 2021</li>
-                  <li><i class="fa fa-users"></i> TemplateMo</li>
+                  <li><i class="fa fa-calendar"></i> 24 January 2026</li>
+                  <li><i class="fa fa-users"></i> Track & Go</li>
                   <li><i class="fa fa-folder"></i> Branding</li>
                 </ul>
-                <a href="#"><h4>SEO Agency &amp; Digital Marketing</h4></a>
-                <p>Lorem ipsum dolor sit amet, consectetur and sed doer ket eismod tempor incididunt ut labore et dolore magna...</p>
+                <a href="#"><h4>Data Fetching &amp; Email Sending Auto</h4></a>
+                <p>Our platform helps you fetch carrier data, send emails automatically, detect spam, secure all information, and manage ...</p>
                 <div class="main-blue-button">
                   <a href="#">Discover More</a>
                 </div>
@@ -248,9 +317,9 @@
             <ul>
               <li>
                 <div class="left-content align-self-center">
-                  <span><i class="fa fa-calendar"></i> 18 Mar 2021</span>
-                  <a href="#"><h4>New Websites &amp; Backlinks</h4></a>
-                  <p>Lorem ipsum dolor sit amsecteturii and sed doer ket eismod...</p>
+                  <span><i class="fa fa-calendar"></i> 18 January 2026</span>
+                  <a href="#"><h4>Data  &amp; Fetching</h4></a>
+                  <p>Collect carrier information quickly and efficiently for smooth operations...</p>
                 </div>
                 <div class="right-image">
                   <a href="#"><img src="assets/images/blog-thumb-01.jpg" alt=""></a>
@@ -258,9 +327,9 @@
               </li>
               <li>
                 <div class="left-content align-self-center">
-                  <span><i class="fa fa-calendar"></i> 14 Mar 2021</span>
-                  <a href="#"><h4>SEO Analysis &amp; Content Ideas</h4></a>
-                  <p>Lorem ipsum dolor sit amsecteturii and sed doer ket eismod...</p>
+                  <span><i class="fa fa-calendar"></i> 14 January 2024</span>
+                  <a href="#"><h4>Email &amp;Sending</h4></a>
+                  <p>Send emails to truckers automatically with verified contacts...</p>
                 </div>
                 <div class="right-image">
                   <a href="#"><img src="assets/images/blog-thumb-01.jpg" alt=""></a>
@@ -268,9 +337,9 @@
               </li>
               <li>
                 <div class="left-content align-self-center">
-                  <span><i class="fa fa-calendar"></i> 06 Mar 2021</span>
-                  <a href="#"><h4>SEO Tips &amp; Digital Marketing</h4></a>
-                  <p>Lorem ipsum dolor sit amsecteturii and sed doer ket eismod...</p>
+                  <span><i class="fa fa-calendar"></i> 06 January 2026</span>
+                  <a href="#"><h4>Spam &amp; Detection</h4></a>
+                  <p>Detect spam and ensure your emails reach the right inbox....</p>
                 </div>
                 <div class="right-image">
                   <a href="#"><img src="assets/images/blog-thumb-01.jpg" alt=""></a>
@@ -288,8 +357,8 @@
       <div class="row">
         <div class="col-lg-6 align-self-center wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay="0.25s">
           <div class="section-heading">
-            <h2>Feel Free To Send Us a Message About Your Website Needs</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doer ket eismod tempor incididunt ut labore et dolores</p>
+            <h2>Feel Free To Send Us a Message About Your Needs</h2>
+            <p>Get in touch with our team, send your message anytime, and we will respond quickly to assist you with all inquiries.</p>
             <div class="phone-info">
               <h4>For any enquiry, Call Us: <span><i class="fa fa-phone"></i> <a href="#">010-020-0340</a></span></h4>
             </div>
@@ -332,4 +401,5 @@
       </div>
     </div>
   </div>
+
 @endsection

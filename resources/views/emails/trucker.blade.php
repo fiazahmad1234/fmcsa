@@ -45,8 +45,9 @@
                               <span style="font-size: 14px; color: #616161; line-height: 140%; text-align: center; word-wrap: break-word;">
                                  <p style=" line-height: 140%; padding-left: 20px; padding-right: 20px;">
                                     <span style=" font-family: Raleway, sans-serif; line-height: 19.6px; ">
-Reliable loads are available daily for owner-operators and fleet drivers through our dispatch service. Move your freight safely, earn competitive rates, and receive consistent dispatch support from my team on every mile of your route. Maximize your earnings with trusted shippers and timely payments.                                    </span>
-                                  </p>
+My name is John Smith, and I’m a professional truck dispatcher working with owner-operators and small fleets across the U.S.
+
+I help keep trucks moving with consistent, high-paying loads, strong rate negotiation, lane planning to reduce deadhead, and full dispatch support including paperwork and 24/7 assistance while trucks are on the road.                                  </p>
                                 </span>
                             </td>
                     </tr>
@@ -176,9 +177,14 @@ Reliable loads are available daily for owner-operators and fleet drivers through
                          <td>
                              <span  style=" text-align: start; font-size: 16px; color: #5b5b5b; line-height: 160%; text-align: center; word-wrap: break-word;">
                                          <p style=" text-align: center; font-size:16px; line-height: 160%;  font-family:Releway,sans-serif; ">
-share the zip code from where you need the load, We will share some best-paying loads with you, NEW MC ACCEPTED
-Whenever you need loads, text me or call us, We are always available for you. All the LOAD OPTIONS are absolutely FREE
-just show us your kind response we are available 24\7                                        </p>
+I support all truck types (Dry Van, Reefer, Flatbed, Power Only, etc.) and work on a percentage-based model with no upfront fees. You always have full control over your trucks and final decisions.
+
+If you’re interested, please reply or share:
+
+- Number of trucks
+- Truck type
+- Preferred lanes
+- Best contact number                                   </p>
                               </span>
                         </td>
                     </tr>

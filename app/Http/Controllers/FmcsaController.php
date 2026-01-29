@@ -85,8 +85,10 @@ class FmcsaController extends Controller
                 // --- Extract Entity Type ---
                 preg_match('/Entity Type.*?<td.*?>(.*?)<\/td>/si', $html, $entityTypeMatch);
                 $entityType = isset($entityTypeMatch[1]) ? trim(strip_tags($entityTypeMatch[1])) : 'N/A';
-
-                  $operatingStatus = $this->quickMatch('/Operating Authority Status.*?<td.*?>(.*?)<\/td>/si', $html);
+                // finding authority
+               $pattern = '/Operating Authority Status:.*?<TD[^>]*>\s*(.*?)\s*<br>/si';
+               preg_match($pattern, $html, $matches);
+              $operatingStatus = isset($matches[1]) ? trim(strip_tags($matches[1])) : 'N/A';
 
                 // --- Extract MCS-150 Form Date ---
                 $mcsDate = $this->quickMatch('/MCS-150 Form Date.*?<td.*?>(.*?)<\/td>/si', $html);
@@ -96,7 +98,7 @@ class FmcsaController extends Controller
                     'DOT'         => $dotNum,
                     'Location'    => $location,
                     'EntityType'  => $entityType,
-                     'OperatingStatus'   => $operatingStatus,
+                    'OperatingStatus' => $operatingStatus,
                     'MCS150Date'    => $mcsDate,
                     'CompanyName' => $this->quickMatch('/Legal Name.*?<td.*?>(.*?)<\/td>/si', $html),
                     'Status'      => $this->quickMatch('/USDOT Status.*?<b>(.*?)<\/b>/si', $html),

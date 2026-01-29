@@ -11,6 +11,9 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
  <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 
 
 
@@ -52,12 +55,12 @@
             <ul class="nav">
               
 
-                <li class="scroll-to-section"><a href="#about">About Us</a></li>
-              <li class="scroll-to-section"><a href="#services">Services</a></li>
-              <li class="scroll-to-section"><a href="#portfolio">Portfolio</a></li>
+                <li class="scroll-to-section"><a href="{{ url('/about') }}">About Us</a></li>
+              <li class="scroll-to-section"><a href="{{ url('/service') }}">Services</a></li>
+              <li class="scroll-to-section"><a href="{{ url('/portfolio') }}">Portfolio</a></li>
               <li class="scroll-to-section"><a href="#blog">Blog</a></li> 
-              <li class="scroll-to-section"><a href="#contact">Message Us</a></li> 
-              <li class="scroll-to-section"><div class="main-red-button"><a href="#contact">Contact Now</a></div></li> 
+              <li class="scroll-to-section"><a href="{{route('contact')}}">Message Us</a></li> 
+              <li class="scroll-to-section"><div class="main-red-button"><a href="{{route('contact')}}">Contact Now</a></div></li> 
             </ul>        
             <a class='menu-trigger'>
                 <span>Menu</span>

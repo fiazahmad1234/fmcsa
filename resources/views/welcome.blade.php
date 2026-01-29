@@ -167,7 +167,7 @@
          <div class="results-header d-flex justify-content-between align-items-center">
         <div>
             <h4><i class="bi bi-truck-flatbed me-2"></i> Carrier Analytics Data</h4>
-            <p>Real-time FMCSA snapshot for your requested DOT/MC numbers</p>
+            <p class="text-white">Real-time FMCSA snapshot for your requested DOT/MC numbers</p>
         </div>
         <div class="text-end">
             <span class="badge bg-white text-primary px-3 py-2 rounded-3 fw-bold shadow-sm">
@@ -190,6 +190,7 @@
                         <th>Driver</th>
                         <th>Status</th>
                         <th>Type</th>
+                        <th>Authority</th>
                         <th>Source</th>
                         <th class="pe-3">Error</th>
                     </tr>
@@ -240,6 +241,17 @@
                         </td>
                         
                         <td><span class="text-muted small text-uppercase fw-bold">{{ clean($data['EntityType'] ?? '—') }}</span></td>
+<td>
+    @if(Str::contains(strtoupper($data['OperatingStatus']), 'AUTHORIZED FOR PROPERTY'))
+        <span class="text-success">
+            <i class="bi bi-check-circle-fill me-1"></i> AUTHORIZED
+        </span>
+    @else
+        <span class="text-danger">
+            <i class="bi bi-exclamation-triangle-fill me-1"></i> NOT AUTHORIZED
+        </span>
+    @endif
+</td>
 
                         <td>
                             @if(!empty($data['Source']))
@@ -255,10 +267,9 @@
 
                         <td class="pe-3 {{ empty($data['Error']) || $data['Error'] === 'None' ? 'text-success' : 'text-danger fw-bold' }}">
                             @if(empty($data['Error']) || $data['Error'] === 'None')
-                                <i class="bi bi-check-circle-fill me-1"></i>None
+                            <i class="bi bi-check-circle-fill me-1"></i>None
                             @else
                                 <i class="bi bi-exclamation-triangle-fill me-1"></i>{{ $data['Error'] }}
-                            <i class="bi bi-exclamation-triangle-fill me-1"></i>{{ $data['OperatingStatus'] }}
 
                             @endif
                         </td>

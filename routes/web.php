@@ -58,6 +58,20 @@ Route::post('/send-emails', [EmailSenderController::class, 'sendEmails'])->name(
 Route::post('/emails/export', [FmcsaController::class, 'exportEmailsExcel'])->name('emails.export');
 
 
+use App\Http\Controllers\ContactController;
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::view('/about', 'about');
+Route::view('/service', 'service');
+Route::view('/portfolio', 'portfolio');
+
+
+use App\Http\Controllers\PaymentController;
+
+Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+Route::post('/checkout', [PaymentController::class, 'processPayment'])->name('checkout.process');
+
 
 
 require __DIR__.'/admin.php';

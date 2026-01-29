@@ -48,6 +48,14 @@ return [
             'timeout' => null,
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
+        'account_two' => [ // Your second account
+        'transport' => 'smtp',
+        'host' => 'smtp.gmail.com', // or your provider
+        'port' => 587,
+        'username' => 'fiazahmad13072@gmail.com',
+        'password' => 'zccurriidgdlhmlc',
+        'encryption' => 'tls',
+    ],
 
         'ses' => [
             'transport' => 'ses',
