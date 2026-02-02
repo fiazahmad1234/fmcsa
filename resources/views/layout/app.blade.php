@@ -55,13 +55,25 @@
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
-              
-
-                <li class="scroll-to-section"><a href="{{ url('/about') }}">About Us</a></li>
+                <li class="scroll-to-section"><a href="/">Home</a></li>
               <li class="scroll-to-section"><a href="{{ url('/service') }}">Services</a></li>
               <li class="scroll-to-section"><a href="{{ url('/portfolio') }}">Portfolio</a></li>
-              <li class="scroll-to-section"><a href="#blog">Blog</a></li> 
-              <li class="scroll-to-section"><a href="{{route('contact')}}">Message Us</a></li> 
+                <li class="scroll-to-section"><a href="{{ url('/about') }}">About Us</a></li>
+
+<li class="scroll-to-section">
+    @auth
+        <a href="#" class="text-danger" style="position: relative;">
+            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                @csrf
+                <button type="submit" style="all: unset; cursor: pointer;">
+                    Logout
+                </button>
+            </form>
+        </a>
+    @else
+        <a href="{{ route('login') }}">Login</a>
+    @endauth
+</li>
               <li class="scroll-to-section"><div class="main-red-button"><a href="{{route('contact')}}">Contact Now</a></div></li> 
             </ul>        
             <a class='menu-trigger'>
@@ -74,51 +86,88 @@
     </div>
   </header>
 
-
     <!-- Main content -->
     <main class="flex-grow-1">
         @yield('content')
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-auto">
-        <div class="container">
-            <div class="row">
+   <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+    <div class="container">
+        <div class="row gy-4">
 
-                <div class="col-md-4 mb-3">
-                    <h5 class="fw-bold">FMCSA Analytics</h5>
-                    <p class="small text-white-50">
-                        Real-time FMCSA data & carrier analytics for your DOT/MC lookup needs.
-                    </p>
+            <!-- Brand -->
+            <div class="col-lg-4 col-md-6">
+             <div class="section-heading">
+            <h2> <span class="text-danger">Track <em>&Go</em></h2></div> <hr class="about-line" stlye="color:red">
+            
+
+    <p class="text-white text-start">
+                 Real-time FMCSA data with advanced DOT & MC carrier analytics that empower trucking
+    companies, brokers, and logistics professionals to verify carriers.
+                </p>
+
+
+                <!-- Social Icons -->
+                <div class="d-flex gap-3 mt-3">
+                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-facebook text-white"></i></a>
+                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-twitter-x text-white"></i></a>
+                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-linkedin text-white" ></i></a>
+                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-envelope text-white"></i></a>
                 </div>
-
-                <div class="col-md-4 mb-3">
-                    <h5 class="fw-bold">Quick Links</h5>
-                    <ul class="list-unstyled small">
-                        <li><a href="#" class="text-white-50 text-decoration-none">Home</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Services</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
-                        <li class="scroll-to-section"> <a href="{{ route('email-upload') }}"> Email</a></li>
-                        <li class="scroll-to-section"><a href="{{ route('extract-data') }}"> Tools </a></li>
-                    </ul>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                    <h5 class="fw-bold">Contact</h5>
-                     <li><a href="#" class="text-white-50 text-decoration-none">123 Main Street, City, Country</a></li>
-                        <li><a href="#" class="text-white-50 text-decoration-none">info@fmcsa.com</a></li>
-                        <li > <a  class="text-white-50 text-decoration-none" href="#">+1 234 567 8900</a></li>
-                       
-                </div>
-
             </div>
-            <hr class="border-light">
-            <div class="text-center small text-white-50">
-                &copy; {{ date('Y') }} FMCSA Analytics. All rights reserved.
+
+            <!-- Quick Links -->
+            <div class="col-lg-4 col-md-6">
+            <div class="section-heading">
+            <h2> <span class="text-danger">Quick <em>Links</em></h2></div> <hr class="about-line" stlye="color:red">
+                            <ul class="list-unstyled small text-white">
+                    <li><a class="footer-link text-white" href="/">Home</a></li>
+                    <li><a class="footer-link text-white" href="{{ url('/service') }}">Services</a></li>
+                    <li><a class="footer-link text-white" href="{{ url('/portfolio') }}">Portfolio</a></li>
+                    <li><a class="footer-link text-white" href="{{ url('/about') }}">About Us</a></li>
+                    <li><a class="footer-link text-white" href="{{ route('contact') }}">Contact Us</a></li>
+
+                    @auth
+                        <li><a class="footer-link  text-danger" href="{{ route('logout') }}">Logout</a></li>
+                    @else
+                        <li><a class="footer-link text-white" href="{{ route('login') }}">Login</a></li>
+                    @endauth 
+
+                    <li><a class="footer-link" href="{{ route('email-upload') }}">Email Tool</a></li>
+                    <li><a class="footer-link" href="{{ route('extract-data') }}">Analytics Tools</a></li>
+                </ul>
             </div>
+
+            <!-- Contact -->
+            <div class="col-lg-4 col-md-6">
+             <div class="section-heading">
+            <h2> <span class="text-danger">Contact <em>Us</em></h2></div> <hr class="about-line" stlye="color:red">
+                            <ul class="list-unstyled small text-white-50">
+                    <li class="mb-2 text-white">
+                        <i class="bi bi-geo-alt me-2 text-white"></i>
+                        25-11 41st Ave, Queens, NY 11101
+                    </li>
+                    <li class="mb-2 text-white">
+                        <i class="bi bi-envelope me-2 text-white"></i>
+                        johnsmith13072@gmail.com
+                    </li>
+                    <li class="text-white">
+                        <i class="bi bi-telephone me-2 text-white"></i>
+                        (0306)-649-8742 / (888)-649-8772
+                    </li>
+                </ul>
+            </div>
+
         </div>
-    </footer>
+
+        <hr class="border-secondary my-4">
+
+        <div class="text-center small text-white-50">
+            &copy; {{ date('Y') }} <strong>FMCSA Analytics</strong>. All Rights Reserved.
+        </div>
+    </div>
+</footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

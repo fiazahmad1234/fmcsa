@@ -7,79 +7,32 @@
     <div class="glass-container mt-5">
         <!-- Header -->
         <div class="header-section">
-            <h1 class="main-title" id="form-title">Login</h1>
+            <h1 class="main-title">Register</h1>
         </div>
 
         <!-- Error messages -->
-     <div id="error-container">
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            {{ $errors->first() }}
-        </div>
-    @endif
-
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
-</div>
-
-        <!-- Login Form -->
-        <form id="login-form" method="POST" action="{{ route('login.submit') }}">
-            @csrf
-            <div class="custom-input-group">
-                <label>Email</label>
-                <input type="email" name="email" placeholder="username@gmail.com" required>
-            </div>
-
-            <div class="custom-input-group">
-                <label>Password</label>
-                <div class="password-field">
-                    <input type="password" name="password" id="login-password" placeholder="Password" required>
-                    <i class="fa-regular fa-eye-slash toggle-password"></i>
+        <div id="error-container">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    {{ $errors->first() }}
                 </div>
-            </div>
+            @endif
 
-            <button type="submit" class="btn-signin">Login</button>
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-            <div class="or-divider">
-                <span>or continue with</span>
-            </div>
-
-            <!-- Social Logins -->
-            <div class="social-row d-flex gap-3 justify-content-center mt-3">
-                <!-- Google -->
-                <a href="{{ route('login.google') }}" class="social-box">
-                    <img src="{{ asset('assets/images/google.svg') }}" alt="Google Login">
-                </a>
-                <!-- LinkedIn -->
-                <a href="{{ route('linkedin.login') }}" class="social-box">
-                    <img src="{{ asset('assets/images/linkedin.png') }}" alt="LinkedIn Login">
-                </a>
-                <!-- GitHub -->
-                <a href="{{ route('github.login') }}" class="social-box">
-                    <img src="{{ asset('assets/images/github.svg') }}" alt="GitHub Login">
-                </a>
-                <!-- Facebook -->
-                <a href="{{ route('facebook.login') }}" class="social-box">
-                    <img src="{{ asset('assets/images/facebook.avif') }}" alt="Facebook Login">
-                </a>
-            </div>
-
-            <p class="register-text">
-                Don't have an account? <a href="{{route('user-register')}}" id="show-register">Register here</a>
-            </p>
-        </form>
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+        </div>
 
         <!-- Register Form -->
-        <form id="register-form" method="POST" action="{{ route('submit.register') }}" style="display:none;">
+        <form method="POST" action="{{ route('submit.register') }}">
             @csrf
             <div class="custom-input-group">
                 <label>Name</label>
@@ -94,7 +47,7 @@
             <div class="custom-input-group">
                 <label>Password</label>
                 <div class="password-field">
-                    <input type="password" name="password" id="register-password" placeholder="Password" required>
+                    <input type="password" name="password" placeholder="Password" required>
                     <i class="fa-regular fa-eye-slash toggle-password"></i>
                 </div>
             </div>
@@ -103,13 +56,14 @@
                 <label>Confirm Password</label>
                 <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
             </div>
+
             <button type="submit" class="btn-signin">Register</button>
 
             <div class="or-divider">
                 <span>or continue with</span>
             </div>
 
-            <!-- Social Logins (same as login) -->
+            <!-- Social Logins -->
             <div class="social-row d-flex gap-3 justify-content-center mt-3">
                 <a href="{{ route('login.google') }}" class="social-box">
                     <img src="{{ asset('assets/images/google.svg') }}" alt="Google Login">
@@ -124,10 +78,6 @@
                     <img src="{{ asset('assets/images/facebook.avif') }}" alt="Facebook Login">
                 </a>
             </div>
-
-            <p class="register-text">
-                Already have an account? <a href="#" id="show-login">Login here</a>
-            </p>
         </form>
     </div>
 </div>
@@ -150,8 +100,29 @@
 .social-box { flex:1; background:#ffffff; height:45px; border-radius:10px; display:flex; justify-content:center; align-items:center; text-decoration:none; transition:0.2s; }
 .social-box:hover { background:#f8f9fa; }
 .social-box img { width:20px; }
-.register-text { text-align:center; font-size:0.8rem; opacity:0.9; }
-.register-text a { color:white; font-weight:bold; text-decoration:none; cursor:pointer; }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Select all toggle-password icons
+    const toggleIcons = document.querySelectorAll('.toggle-password');
+
+    toggleIcons.forEach(icon => {
+        icon.addEventListener('click', function () {
+            // Find the associated password input
+            const passwordInput = this.previousElementSibling;
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text'; // Show password
+                this.classList.remove('fa-eye-slash');
+                this.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password'; // Hide password
+                this.classList.remove('fa-eye');
+                this.classList.add('fa-eye-slash');
+            }
+        });
+    });
+});
+</script>
 
 @endsection

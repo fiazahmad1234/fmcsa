@@ -9,14 +9,24 @@ use App\Http\Controllers\Admin\UserController;
 
 
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+Route::post('/register', [LoginController::class, 'register'])->name('submit.register');
+
+Route::post('/login-submit', [LoginController::class, 'loginsubmit'])->name('login.submit');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Protected route
 
-        Route::get('dashboard', function () {
-    return view('dashboard');
-    });
+//    Route::get('dashboard', function () {
+//     return view('dashboard');
+// });
+
+// web.php
+Route::get('dashboard', function () {
+    return view('dashboard.index'); // just return the view
+})->name('dashboard')->middleware('auth'); // name the route here
+
+
+
 
 
  
@@ -65,6 +75,8 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 Route::view('/about', 'about');
 Route::view('/service', 'service');
 Route::view('/portfolio', 'portfolio');
+Route::view('/user-register', 'register')->name('user-register');
+
 
 
 use App\Http\Controllers\PaymentController;
@@ -73,5 +85,19 @@ Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout'
 Route::post('/checkout', [PaymentController::class, 'processPayment'])->name('checkout.process');
 
 
+use App\Http\Controllers\GoogleAuthController;
+
+// Google login
+Route::get('login/google', [GoogleAuthController::class, 'redirectToProvider'])->name('login.google');
+Route::get('login/google/callback', [GoogleAuthController::class, 'handleProviderCallback']);
+// github login
+Route::get('/auth/github', [GoogleAuthController::class, 'redirect'])->name('github.login');
+Route::get('/auth/github/callback', [GoogleAuthController::class, 'callback']);
+// facebook login
+Route::get('login/facebook', [GoogleAuthController::class, 'startFacebookLogin'])->name('facebook.login');
+Route::get('login/facebook/callback', [GoogleAuthController::class, 'handleFacebookCallback']);
+// likden login
+Route::get('auth/linkedin', [GoogleAuthController::class, 'loginlinkden'])->name('linkedin.login');
+Route::get('auth/linkedin/callback', [GoogleAuthController::class, 'callbacklinkden']);
 
 require __DIR__.'/admin.php';

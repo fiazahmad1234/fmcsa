@@ -327,3 +327,7 @@ background-color: #2c2f36;
     left: 0;
     font-weight: bold;
 }
+/*dashboard*/
+.nav-link::after {
+    background-color: red!important;
+}

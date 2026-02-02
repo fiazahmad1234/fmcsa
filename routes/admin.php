@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+// web.php
+use App\Http\Controllers\ProPaymentController;
 
-Route::get('/fiaz', function () {
-    return "This is fiaz ahmad";
-});
+Route::get('/pro-check', [ProPaymentController::class, 'check'])->name('pro-check');
+

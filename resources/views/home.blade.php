@@ -56,7 +56,7 @@
           <h5 class="fw-bold text-uppercase small tracking-widest text-secondary">Free Plan</h5>
           <h2 class="price-tag">Free</h2>
           <p class="feature-text text-muted">Essential access to basic tools where you can <strong>fetch number data</strong> instantly.</p>
-<a href="/checkout" class="btn btn-outline-dark w-100 rounded-pill mt-auto">
+<a href="/login" class="btn btn-outline-dark w-100 rounded-pill mt-auto">
     Get Started
 </a>
         </div>
@@ -70,8 +70,7 @@
           <h5 class="fw-bold text-uppercase small text-secondary">Pro Lead</h5>
           <h2 class="price-tag">$50</h2>
           <p class="feature-text text-muted">Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.</p>
-  <a href="/checkout" 
-               class="btn btn-outline-primary w-100 rounded-pill mt-auto">
+           <a href="{{route('pro-check')}}" class="btn btn-outline-primary w-100 rounded-pill mt-auto">
                 Choose Pro
             </a>        </div>
       </div>

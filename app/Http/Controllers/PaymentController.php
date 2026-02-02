@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
+use App\Models\Payment;
+
 
 class PaymentController extends Controller
 {
@@ -24,6 +26,20 @@ class PaymentController extends Controller
             'amount' => 'required|numeric',
             'payment_method_id' => 'required|string',
         ]);
+          // 1. Check if user already exists by email
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user) {
+        // Create a new user
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password ?? 'defaultpassword'), // default if password not provided
+        ]);
+    }
+
+    // 2. Log in the user
+    Auth::login($user);
 
         try {
             Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -46,6 +62,19 @@ class PaymentController extends Controller
                 ],
             
             ]);
+               if ($paymentIntent->status === 'succeeded') {
+            Payment::create([
+                'user_id' => $user->id,
+                'payment_id' => $paymentIntent->id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone ?? null,
+                'address' => $request->address ?? null,
+                'amount' => $request->amount,
+                'currency' => 'USD',
+                'status' => 'success',
+            ]);
+        }
 
             return back()->with('success', 'Payment successful! Payment ID: ' . $paymentIntent->id);
         } catch (\Exception $e) {
