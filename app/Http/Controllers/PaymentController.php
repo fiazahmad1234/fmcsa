@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 use App\Models\Payment;
+use Illuminate\Support\Facades\Hash; // ✅ Add this
+
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 
 class PaymentController extends Controller
@@ -31,12 +36,15 @@ class PaymentController extends Controller
 
     if (!$user) {
         // Create a new user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password ?? 'defaultpassword'), // default if password not provided
-        ]);
+$password = $request->password ?? 'riaz@13072';
+
+$user = User::create([
+    'name' => $request->name,
+    'email' => $request->email,
+    'password' => Hash::make($password),
+]);
     }
+    
 
     // 2. Log in the user
     Auth::login($user);
@@ -63,6 +71,19 @@ class PaymentController extends Controller
             
             ]);
                if ($paymentIntent->status === 'succeeded') {
+         $amount = intval($request->amount);
+
+                $plan = null;
+                if ($amount === 80) {
+                    $plan = 'pro';
+                } elseif ($amount === 100) {
+                    $plan = 'business';
+                } elseif ($amount === 150) {
+                    $plan = 'gold';
+                } else {
+                    $plan = 'custom';
+                }
+
             Payment::create([
                 'user_id' => $user->id,
                 'payment_id' => $paymentIntent->id,
@@ -73,6 +94,8 @@ class PaymentController extends Controller
                 'amount' => $request->amount,
                 'currency' => 'USD',
                 'status' => 'success',
+                'plan' => $plan, // set automatically based on amount
+
             ]);
         }
 

@@ -26,11 +26,11 @@ class RolePermissionSeeder extends Seeder
         }
         $admin = Role::firstOrCreate(['name' => 'admin']);
         $user  = Role::firstOrCreate(['name' => 'user']);
-        $editor  = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
+        $editor = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
 
         // Assign permissions
         $admin->givePermissionTo(Permission::all());
         $user->givePermissionTo('view users');
-        $editor->givePermissionTO('edit users');
+        $editor->givePermissionTo('edit users');
     }
 }

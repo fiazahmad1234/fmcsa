@@ -70,9 +70,8 @@
           <h5 class="fw-bold text-uppercase small text-secondary">Pro Lead</h5>
           <h2 class="price-tag">$50</h2>
           <p class="feature-text text-muted">Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.</p>
-           <a href="{{route('pro-check')}}" class="btn btn-outline-primary w-100 rounded-pill mt-auto">
-                Choose Pro
-            </a>        </div>
+        <a href="{{ route('pro-check', 'pro') }}" class="btn btn-outline-primary">Choose Pro</a>
+     </div>
       </div>
     </div>
 
@@ -83,7 +82,7 @@
           <h5 class="fw-bold text-uppercase small text-secondary">Business</h5>
           <h2 class="price-tag text-news">$100</h2>
           <p class="feature-text text-muted">Full communication suite to <strong>send unlimited emails</strong> from a single account.</p>
-          <a href="/checkout"  class="btn btn-danger w-100 rounded-pill mt-auto" style="background-color: #ff4d4d; border: none;">Go Business</a>
+<a href="{{ route('pro-check', 'business') }}" class="btn btn-outline-warning">Choose Business</a>
         </div>
       </div>
     </div>
@@ -95,7 +94,7 @@
           <h5 class="fw-bold text-uppercase small text-info">Automation</h5>
           <h2 class="price-tag">$150</h2>
           <p class="feature-text text-light opacity-75">Scale up with <strong>auto-emails across multiple accounts</strong> with 1-minute intervals.</p>
-          <a href="/checkout"  class="btn btn-info w-100 rounded-pill mt-auto">Unlock Elite</a>
+<a href="{{ route('pro-check', 'gold') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">Choose Gold</a>
         </div>
       </div>
     </div>

@@ -50,7 +50,7 @@
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
             <a href="/" class="logo">
-              <h4>Fiaz<span>Ahmad</span></h4>
+              <h4>Track<span>&Go</span></h4>
             </a>
             <!-- ***** Logo End ***** -->
             <!-- ***** Menu Start ***** -->

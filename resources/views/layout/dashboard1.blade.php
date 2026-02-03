@@ -58,7 +58,10 @@
 
 <div class="sidebar-nav h-100" style="width: 260px;">
     <ul class="nav flex-column">
-        <li class="nav-header">PAGES</li>
+        <li class="nav-item">
+              <a class="nav-link" href="{{route('dashboard')}}">
+           Dashboard
+            </a></li>
 
         <li class="nav-item">
             <a class="nav-link" href="#">
@@ -85,8 +88,8 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link text-info" href="/">
-                <span><i class="bi bi-house-door me-2"></i>HOME</span>
+            <a class="nav-link text-info" href="{{url('users')}}">
+                <span><i class="bi bi-house-door me-2"></i>users</span>
             </a>
         </li>
     </ul>
