@@ -40,19 +40,28 @@
             </div>
 
             <div class="custom-input-group">
-                <label>Password</label>
+               <div class="d-flex justify-content-between align-items-center mb-2">
+              <label>Password</label>
+           <a href="{{url('reset')}}"
+           class="text-decoration-none text-light small">
+            Forgot password?
+        </a>
+    </div>
                 <div class="password-field">
                     <input type="password" name="password" id="login-password" placeholder="Password" required>
                     <i class="fa-regular fa-eye-slash toggle-password"></i>
                 </div>
             </div>
-
+        <div class="custom-input-group" style="display: inline-block;">
+    <label style="cursor: pointer;">
+        <input type="checkbox" name="remember" id="remember" style="vertical-align: middle; margin-right: 5px;">
+        Remember me
+    </label>
+</div>
             <button type="submit" class="btn-signin">Login</button>
-
             <div class="or-divider">
                 <span>or continue with</span>
             </div>
-
             <!-- Social Logins -->
             <div class="social-row d-flex gap-3 justify-content-center mt-3">
                 <!-- Google -->
@@ -103,6 +112,7 @@
                 <label>Confirm Password</label>
                 <input type="password" name="password_confirmation" placeholder="Confirm Password" required>
             </div>
+   
             <button type="submit" class="btn-signin">Register</button>
 
             <div class="or-divider">
@@ -124,14 +134,12 @@
                     <img src="{{ asset('assets/images/facebook.avif') }}" alt="Facebook Login">
                 </a>
             </div>
-
             <p class="register-text">
                 Already have an account? <a href="#" id="show-login">Login here</a>
             </p>
         </form>
     </div>
 </div>
-
 <style>
 /* Glassy background & styling */
 .main-wrapper { min-height: 100vh; display:flex; justify-content:center; align-items:center; background-image:url('assets/images/login-background.jpg'); background-size:cover; background-position:center; padding:20px; font-family:'Inter',sans-serif; }
@@ -152,6 +160,19 @@
 .social-box img { width:20px; }
 .register-text { text-align:center; font-size:0.8rem; opacity:0.9; }
 .register-text a { color:white; font-weight:bold; text-decoration:none; cursor:pointer; }
+/* checkbox css */
+.custom-input-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* space between checkbox and text */
+    cursor: pointer;
+}
+
+.custom-input-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
 </style>
 
 @endsection

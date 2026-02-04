@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Client\Pool;
-use Maatwebsite\Excel\Facades\Excel; // ✅ Import this
-use App\Exports\DotDataExport;  
-use App\Exports\EmailSubjectExport;  
+use Illuminate\Http\Client\Response; // ✅ Added for type checking
+use Maatwebsite\Excel\Facades\Excel;
 
+use App\Exports\DotDataExport;
+use App\Exports\EmailSubjectExport;
 
 class FmcsaController extends Controller
 {
@@ -20,15 +21,13 @@ class FmcsaController extends Controller
     public function fetch(Request $request)
     {
         ini_set('max_execution_time', 1800);
-        ini_set('memory_limit', '512M'); // allow long running requests
+        ini_set('memory_limit', '512M');
 
-        // Validate input
         $request->validate([
             'start_dot' => 'required|numeric',
             'end_dot'   => 'required|numeric'
         ]);
 
-        // Setup MC range
         $start = (int) $request->start_dot;
         $end   = (int) $request->end_dot;
         $mcRange = range(min($start, $end), max($start, $end));
@@ -38,7 +37,7 @@ class FmcsaController extends Controller
             'Referer'    => 'https://safer.fmcsa.dot.gov/'
         ];
 
-        // --- PHASE 1: Fetch MC pages concurrently to get DOT numbers ---
+        // --- PHASE 1: Fetch MC pages concurrently ---
         $saferResponses = Http::pool(fn (Pool $pool) =>
             collect($mcRange)->map(fn ($mc) =>
                 $pool->as("mc_$mc")->withHeaders($headers)->timeout(10)->asForm()->post('https://safer.fmcsa.dot.gov/query.asp', [
@@ -57,21 +56,21 @@ class FmcsaController extends Controller
             $response = $saferResponses["mc_$mc"] ?? null;
             $dotNum = "NOT_FOUND";
 
-            if ($response && $response->successful()) {
+            // ✅ FIX: Verify $response is a Response object and not an Exception
+            if ($response instanceof Response && $response->successful()) {
                 $html = str_replace('&nbsp;', ' ', $response->body());
 
-                // Extract DOT number
                 if (preg_match('/USDOT Number.*?<td[^>]*>\s*([0-9]{4,10})\s*<\/td>/si', $html, $matches)) {
                     $dotNum = trim($matches[1]);
                 }
 
-                // Skip if no legal name or DOT
                 if ($dotNum === "NOT_FOUND" && !str_contains($html, 'Legal Name')) continue;
 
                 if ($dotNum !== "NOT_FOUND") {
                     $dotNumbersToFetch[$mc] = $dotNum;
                 }
-             preg_match('/Physical\s*Address.*?<td[^>]*>(.*?)<\/td>/si', $html, $addrMatch);
+
+                preg_match('/Physical\s*Address.*?<td[^>]*>(.*?)<\/td>/si', $html, $addrMatch);
                 $fullAddr = isset($addrMatch[1]) ? trim(strip_tags($addrMatch[1])) : '';
                 $location = 'N/A';
                 if (!empty($fullAddr)) {
@@ -82,15 +81,13 @@ class FmcsaController extends Controller
                     }
                 }
 
-                // --- Extract Entity Type ---
                 preg_match('/Entity Type.*?<td.*?>(.*?)<\/td>/si', $html, $entityTypeMatch);
                 $entityType = isset($entityTypeMatch[1]) ? trim(strip_tags($entityTypeMatch[1])) : 'N/A';
-                // finding authority
-               $pattern = '/Operating Authority Status:.*?<TD[^>]*>\s*(.*?)\s*<br>/si';
-               preg_match($pattern, $html, $matches);
-              $operatingStatus = isset($matches[1]) ? trim(strip_tags($matches[1])) : 'N/A';
+                
+                $pattern = '/Operating Authority Status:.*?<TD[^>]*>\s*(.*?)\s*<br>/si';
+                preg_match($pattern, $html, $matches);
+                $operatingStatus = isset($matches[1]) ? trim(strip_tags($matches[1])) : 'N/A';
 
-                // --- Extract MCS-150 Form Date ---
                 $mcsDate = $this->quickMatch('/MCS-150 Form Date.*?<td.*?>(.*?)<\/td>/si', $html);
 
                 $allData["MC$mc"] = [
@@ -106,6 +103,14 @@ class FmcsaController extends Controller
                     'PowerUnits'  => $this->quickMatch('/Power Units.*?<td.*?>(.*?)<\/td>/si', $html),
                     'Drivers'     => $this->quickMatch('/Drivers.*?<td.*?>(.*?)<\/td>/si', $html),
                     'Email'       => 'Searching...' 
+                ];
+            } else {
+                // Handle cases where the initial MC search failed
+                $allData["MC$mc"] = [
+                    'MC' => "MC$mc",
+                    'DOT' => 'Request Failed',
+                    'Email' => 'N/A'
+                    // Fill other fields with N/A as needed
                 ];
             }
         }
@@ -123,30 +128,28 @@ class FmcsaController extends Controller
                 $res = $emailResponses["email_$mc"] ?? null;
                 $email = 'Not Found';
 
-                if ($res && $res->successful()) {
+                // ✅ FIX: Also applied check here to prevent crashes on Phase 2
+                if ($res instanceof Response && $res->successful()) {
                     $body = $res->body();
 
-                    // Try multiple methods to extract email
                     if (preg_match('/lblEmail_0[^>]*>([^<]+)/i', $body, $m)) {
                         $email = trim($m[1]);
                     } elseif (preg_match('/mailto:([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})/i', $body, $m)) {
                         $email = trim($m[1]);
                     } elseif (preg_match('/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6})/i', $body, $m)) {
                         $email = trim($m[1]);
-                    } else {
-                        $email = 'Not Found';
                     }
                 } else {
                     $email = 'Timeout/Error';
                 }
 
-                $allData["MC$mc"]['Email'] = $email;
+                if (isset($allData["MC$mc"])) {
+                    $allData["MC$mc"]['Email'] = $email;
+                }
             }
         }
 
-        // Store results in session for export
         $request->session()->put('allData', $allData);
-
         return view('welcome', compact('allData'));
     }
 
@@ -157,25 +160,22 @@ class FmcsaController extends Controller
         }
         return 'N/A';
     }
-      public function export(Request $request)
+
+    public function export(Request $request)
     {
         $allData = $request->session()->get('allData');
         if (empty($allData)) {
             return redirect()->back()->with('error', 'No data found to export');
         }
-
         return Excel::download(new DotDataExport($allData), 'fmcsa_carriers.xlsx');
     }
-     public function exportEmailsExcel(Request $request)
+
+    public function exportEmailsExcel(Request $request)
     {
-               $allData = $request->session()->get('allData');
-
-
+        $allData = $request->session()->get('allData');
         if (empty($allData)) {
             return redirect()->back()->with('error', 'No data found to export');
         }
-
         return Excel::download(new EmailSubjectExport($allData), 'emails_subjects.xlsx');
     }
-
 }

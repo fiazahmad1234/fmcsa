@@ -8,6 +8,7 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    
     // Show all users with roles
     public function index()
     {

@@ -16,7 +16,7 @@
             <i class="bi bi-send-fill fs-1 text-success"></i>
             <h5 class="mt-2">Send Emails</h5>
             <p class="small text-muted">Compose and send emails.</p>
-  <a href="{{ auth()->user()->hasRole('admin') || auth()->user()->hasRole('editor') ? route('extract-data') : '#' }}" class="btn btn-primary btn-sm mt-2 {{ auth()->user()->hasRole('admin') || auth()->user()->hasRole('editor') ? '' : 'disabled' }}">
+  <a href="{{ auth()->user()->hasRole('admin') || auth()->user()->hasRole('editor') ? route('email-upload') : '#' }}" class="btn btn-primary btn-sm mt-2 {{ auth()->user()->hasRole('admin') || auth()->user()->hasRole('editor') ? '' : 'disabled' }}">
                 {{ auth()->user()->hasRole('admin') || auth()->user()->hasRole('editor') ? 'Go' : 'No Permission' }}
             </a>        </div>
     </div>

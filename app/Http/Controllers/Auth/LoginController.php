@@ -26,6 +26,7 @@ class LoginController extends Controller
         'email' => 'required|email',
         'password' => 'required|string',
     ]);
+    $remember = $request->has('remember'); // true or false
 
     $user = User::where('email', $request->email)->first();
 
@@ -37,7 +38,7 @@ class LoginController extends Controller
         return redirect()->back()->with('error', 'Incorrect password!');
     }
 
-    auth()->login($user);
+    auth()->login($user, $remember);
 
     return redirect('dashboard')->with('success', 'Login successful!');
 }

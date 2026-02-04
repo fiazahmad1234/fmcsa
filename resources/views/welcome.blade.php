@@ -166,7 +166,7 @@
     <div class=" card card-custom border-none">
          <div class="results-header d-flex justify-content-between align-items-center">
         <div>
-            <h4><i class="bi bi-truck-flatbed me-2"></i> Carrier Analytics Data</h4>
+            <h4><i class="bi bi-truck-flatbed me-2"></i> Carrier <span class="text-danger">Analytics Data</span></h4>
             <p class="text-white">Real-time FMCSA snapshot for your requested DOT/MC numbers</p>
         </div>
         <div class="text-end">
