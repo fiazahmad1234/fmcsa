@@ -110,7 +110,14 @@
         <div class="card-header bg-primary text-white text-center">
             <h4 class="mb-0">FMCSA Carrier Lookup</h4>
             <small>Enter DOT numbers to fetch data</small>
-        </div>
+        </div>@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
+        
+
         <div class="card-body">
       <form  id="queryForm" method="POST" action="{{ route('fmcsa.fetch') }}">
     @csrf
@@ -175,111 +182,124 @@
             </span>
         </div>
     </div>
-        <div class="table-responsive">
-            <table class="table table-striped table-border table-hover border align-middle mb-0 ">
-                <thead >
-                    <tr>
-                        <th class="ps-3">Company</th>
-                        <th>Address(county&state)</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Year</th>
-                        <th>DOT</th>
-                        <th>MC</th>
-                        <th>Units</th>
-                        <th>Driver</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th>Authority</th>
-                        <th>Source</th>
-                        <th class="pe-3">Error</th>
-                    </tr>
-                </thead>
+    <!-- Desktop / Tablet Table -->
+<div class="table-responsive d-none d-md-block">
+    <table class="table table-striped table-bordered table-hover align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Address (County & State)</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Year</th>
+                <th>DOT</th>
+                <th>MC</th>
+                <th>Units</th>
+                <th>Drivers</th>
+                <th>Status</th>
+                <th>Type</th>
+                <th>Authority</th>
+                <th>Source</th>
+                <th>Error</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($allData as $data)
+                @php
+                    $status = strtoupper($data['Status'] ?? '');
+                    $badgeClass = ($status === 'ACTIVE') ? 'bg-danger text-white' : 'bg-success text-white';
+                @endphp
 
-                <tbody>
-                    @foreach($allData as $data)
-                     @php
-        $status = strtoupper($data['Status'] ?? '');
-    @endphp
+                @if($status === 'ACTIVE' || $status === 'OFFLINE')
+                <tr>
+                    <td>{{ $data['CompanyName'] ?? '—' }}</td>
+                    <td>{{ $data['Location'] ?? '—' }}</td>
+                    <td>{{ $data['Phone'] ?? '—' }}</td>
+                    <td>{{ $data['Email'] ?? '—' }}</td>
+                    <td>{{ $data['MCS150Date'] ?? '—' }}</td>
+                    <td>{{ $data['DOT'] ?? '—' }}</td>
+                    <td>{{ $data['MC'] ?? '—' }}</td>
+                    <td class="text-center">{{ $data['PowerUnits'] ?? '0' }}</td>
+                    <td class="text-center">{{ $data['Drivers'] ?? '0' }}</td>
+                    <td>
+                        <span class="badge px-2 py-1 {{ $badgeClass }}">{{ $status ?: '—' }}</span>
+                    </td>
+                    <td>{{ $data['EntityType'] ?? '—' }}</td>
+                    <td>
+                        @if(Str::contains(strtoupper($data['OperatingStatus'] ?? ''), 'AUTHORIZED FOR PROPERTY'))
+                            <span class="text-success">AUTHORIZED</span>
+                        @else
+                            <span class="text-danger">NOT AUTHORIZED</span>
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ $data['Source'] ?? 'https://safer.fmcsa.dot.gov/CompanySnapshot.aspx' }}" 
+                           target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
+                           Source
+                        </a>
+                    </td>
+                    <td>
+                        @if(empty($data['Error']) || $data['Error'] === 'None')
+                            <span class="text-success">None</span>
+                        @else
+                            <span class="text-danger fw-bold">{{ $data['Error'] }}</span>
+                        @endif
+                    </td>
+                </tr>
+                @endif
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
-    @if($status === 'ACTIVE' || $status === 'OFFLINE')
-                    <div class="bg-danger">
-                    <tr class="">
-                        <td class="ps-3 {{ empty($data['CompanyName']) ? 'bg-dark text-muted italic' : '' }}">
-                         <span class=" text-dark fs-8 company-name">{{ clean($data['CompanyName'] ?? '—') }}</span>
-                        </td>
+<!-- Mobile Cards -->
+<div class="d-md-none">
+    @foreach($allData as $data)
+        @php
+            $status = strtoupper($data['Status'] ?? '');
+        @endphp
 
-                        <td class="{{ empty($data['Location']) ? 'bg-light text-muted' : '' }} text-dark fs-8">
-                            {{ clean($data['Location'] ?? '—') }}
-                        </td>
-
-                        <td class="{{ empty($data['Phone']) ? 'bg-light text-muted' : '' }}">
-                            <span class="text-nowrap">{{ clean($data['Phone'] ?? '—') }}</span>
-                        </td>
-
-                        <td class="{{ empty($data['Email']) ? 'bg-light text-muted' : '' }}">
-                            <span class="text-primary fw-medium">{{ $data['Email'] ?? '—' }}</span>
-                        </td>
-
-                        <td>{{ clean($data['MCS150Date'] ?? '—') }}</td>
-                        <td><span class="badge bg-light text-dark border">{{ $data['DOT'] ?? '—' }}</span></td>
-                       <td class="">{{ clean($data['MC'] ?? '—') }}</td>
-
-
-                        <td class="text-center fw-bold">{{ clean($data['PowerUnits'] ?? '0') }}</td>
-                         <td class="text-center fw-bold">{{ clean($data['Drivers'] ?? '0') }}</td>
-
-                        
-                        <td>
-                           @php
-    $status = strtoupper($data['Status'] ?? '');
-    // If ACTIVE → bg-danger (red), else bg-success (green)
-    $badgeClass = ($status === 'ACTIVE') ? 'bg-danger text-white' : 'bg-success text-white';
-@endphp
-
-<span class="badge px-2 py-1 {{ $badgeClass }}">{{ $status ?: '—' }}</span>
-                        </td>
-                        
-                        <td><span class="text-muted small text-uppercase fw-bold">{{ clean($data['EntityType'] ?? '—') }}</span></td>
-<td>
-    @if(Str::contains(strtoupper($data['OperatingStatus']), 'AUTHORIZED FOR PROPERTY'))
-        <span class="text-success">
-            <i class="bi bi-check-circle-fill me-1"></i> AUTHORIZED
-        </span>
-    @else
-        <span class="text-danger">
-            <i class="bi bi-exclamation-triangle-fill me-1"></i> NOT AUTHORIZED
-        </span>
-    @endif
-</td>
-
-                        <td>
-                            @if(!empty($data['Source']))
-                                <a href="{{ $data['Source'] }}" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
-                                    Link
-                                </a>
-                            @else
-                                  <a href="https://safer.fmcsa.dot.gov/CompanySnapshot.aspx" target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
-                                    </i>Source
-                                </a>
-                            @endif
-                        </td>
-
-                        <td class="pe-3 {{ empty($data['Error']) || $data['Error'] === 'None' ? 'text-success' : 'text-danger fw-bold' }}">
-                            @if(empty($data['Error']) || $data['Error'] === 'None')
-                            <i class="bi bi-check-circle-fill me-1"></i>None
-                            @else
-                                <i class="bi bi-exclamation-triangle-fill me-1"></i>{{ $data['Error'] }}
-
-                            @endif
-                        </td>
-                    </tr>
-                    <div>
-                         @endif
-                    @endforeach
-                </tbody>
-            </table>
+        @if($status === 'ACTIVE' || $status === 'OFFLINE')
+        <div class="card mb-2">
+            <div class="card-body p-2">
+                <p><strong>Company:</strong> {{ $data['CompanyName'] ?? '—' }}</p>
+                <p><strong>Address:</strong> {{ $data['Location'] ?? '—' }}</p>
+                <p><strong>Phone:</strong> {{ $data['Phone'] ?? '—' }}</p>
+                <p><strong>Email:</strong> {{ $data['Email'] ?? '—' }}</p>
+                <p><strong>Year:</strong> {{ $data['MCS150Date'] ?? '—' }}</p>
+                <p><strong>DOT:</strong> {{ $data['DOT'] ?? '—' }}</p>
+                <p><strong>MC:</strong> {{ $data['MC'] ?? '—' }}</p>
+                <p><strong>Units:</strong> {{ $data['PowerUnits'] ?? '0' }}</p>
+                <p><strong>Drivers:</strong> {{ $data['Drivers'] ?? '0' }}</p>
+                <p><strong>Status:</strong> 
+                    <span class="{{ $status === 'ACTIVE' ? 'text-danger' : 'text-success' }}">{{ $status }}</span>
+                </p>
+                <p><strong>Type:</strong> {{ $data['EntityType'] ?? '—' }}</p>
+                <p><strong>Authority:</strong> 
+                    @if(Str::contains(strtoupper($data['OperatingStatus'] ?? ''), 'AUTHORIZED FOR PROPERTY'))
+                        <span class="text-success">AUTHORIZED</span>
+                    @else
+                        <span class="text-danger">NOT AUTHORIZED</span>
+                    @endif
+                </p>
+                <p><strong>Source:</strong> 
+                    <a href="{{ $data['Source'] ?? 'https://safer.fmcsa.dot.gov/CompanySnapshot.aspx' }}" target="_blank">
+                        Link
+                    </a>
+                </p>
+                <p><strong>Error:</strong> 
+                    @if(empty($data['Error']) || $data['Error'] === 'None')
+                        <span class="text-success">None</span>
+                    @else
+                        <span class="text-danger fw-bold">{{ $data['Error'] }}</span>
+                    @endif
+                </p>
+            </div>
         </div>
+        @endif
+    @endforeach
+</div>
+
     </div>
 </div>
 @else
@@ -311,8 +331,71 @@
             Export Emails
         </button>
     </form>
+    <button type="button" class="btn btn-primary shadow-sm" onclick="printSection('printSection')">
+    <i class="bi bi-printer-fill me-1"></i>
+    Print Emails
+</button>
 
 @endif
+
+
+   
+<style>
+@media print {
+    body * {
+        visibility: hidden; /* hide everything */
+    }
+
+    #printArea, #printArea * {
+        visibility: visible; /* show only print area */
+    }
+
+    #printArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    table {
+        page-break-inside: auto;
+        border-collapse: collapse;
+    }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+    }
+
+    thead { 
+        display: table-header-group; /* repeat header on each page */
+    }
+
+    tfoot { 
+        display: table-footer-group; 
+    }
+}
+</style>
+
+
+
+<script>
+function printSection(sectionId) {
+    // Hide everything else except the section
+    var printContents = document.getElementById(sectionId).innerHTML;
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents; // replace body content with only section
+    window.print(); // trigger print
+    document.body.innerHTML = originalContents; // restore original page
+
+    // Optional: reload scripts/styles if needed
+    location.reload();
+}
+</script>
+
+
+
 
 </div>
 <script>

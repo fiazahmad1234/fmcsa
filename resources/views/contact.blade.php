@@ -31,12 +31,8 @@
     .contact-section {
         margin-top: -4rem; /* pull up over banner */
     }
-    .contact-banner p{
-        padding-left:440px;
-        padding-right:440px;
-    }
+    
  
-
  h2 {
   font-size: 50px;
   font-weight: 700;
@@ -53,7 +49,7 @@
  <div class="section-heading">
             <h2> <span>Contact<span> <em>Us</em></h2>
           </div> 
-    <p class="lead text-white ">We are here to answer all your questions and provide reliable assistance whenever you need it. Our team is committed to guiding you with clear, timely, and effective support at every step.</p>
+    <p class="text-white ">We are here to answer all your questions and provide reliable assistance whenever you need it.</p>
 </div>
 
 
@@ -83,13 +79,30 @@
             <div class="card shadow-sm p-4">
   <div class="section-heading">
             <h2> Send us a message  <span>News</span></h2>
-          </div>                <form action="{{ route('contact.send') }}" method="POST">
-                    @csrf
+          </div>    
+           <form id="contact" action="{{route('contact.store')}}" method="post">
+                @csrf
+                   @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show">
+        {{ session('success') }}
+        
+    </div>
+@endif
+        
                     <div class="mb-3">
                         <input type="text" name="name" class="form-control" placeholder="Full Name" required>
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="phone" class="form-control" placeholder="Phone" required>
+                        <input type="text" name="number" class="form-control" placeholder="Phone" required>
                     </div>
                     <div class="mb-3">
                         <input type="email" name="email" class="form-control" placeholder="Email" required>

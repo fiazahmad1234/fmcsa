@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\EmailSubjectImport;
 use App\Mail\TruckerMail;
+use App\Models\EmailConfiguration;
+use Illuminate\Support\Facades\Config;  // ✅ Correct facade
+
 
 class EmailSenderController extends Controller
 {
@@ -17,46 +20,77 @@ class EmailSenderController extends Controller
     }
 
     // Handle Excel upload and send emails
-   public function sendEmails(Request $request)
+ public function sendEmails(Request $request)
 {
     $request->validate([
         'excel' => 'required|mimes:xlsx,xls,csv',
     ]);
 
-    // 1. SET TIMEOUT: This allows the script to run as long as needed 
-    // without the server cutting it off after 30-60 seconds.
     set_time_limit(0);
 
     $file = $request->file('excel');
     $import = new EmailSubjectImport();
     Excel::import($import, $file);
 
-    // 2. DEFINE ACCOUNTS: Match each mailer with its correct 'from' email
-    $accounts = [
-        [
-            'mailer' => 'smtp', 
-            'from'   => env('MAIL_FROM_ADDRESS')
-        ],
-        [
-            'mailer' => 'account_two', 
-            'from'   => 'fiazahmad13072@gmail.com'
-        ],
-    ];
-    $accountCount = count($accounts);
+    $user = auth()->user();
 
-    foreach ($import->emails as $index => $item) {
-        // 3. ROTATE: Pick account based on index (0, 1, 0, 1...)
-        $currentAccount = $accounts[$index % $accountCount];
+    // ✅ Get accounts using user_id manually
+    $accounts = EmailConfiguration::where('user_id', $user->id)->get();
 
-        // 4. SEND: Specify the mailer AND force the 'from' address
-        Mail::mailer($currentAccount['mailer'])
-            ->to($item['email'])
-            ->send((new TruckerMail($item['subject']))->from($currentAccount['from']));
-
-        // 5. PAUSE: Random delay to prevent being flagged as a bot
-        sleep(rand(5, 10));
+    if ($accounts->count() == 0) {
+        return back()->with('error', 'Please add at least one email configuration.');
     }
 
-    return back()->with('success', 'Emails sent to ' . count($import->emails) . ' recipients!');
+    $subjectTemplates = [
+        "New Dispatch Alert for {name}",
+        "Urgent Delivery Update for {name}",
+        "Shipment Tracking Update for {name}",
+        "Driver Assignment Notification for {name}",
+        "Route Change Notification for {name}",
+    ];
+
+    foreach ($import->emails as $index => $item) {
+
+        $name = $item['name'] ?? 'Customer';
+
+        // ✅ Role Check
+        if ($user->hasAnyRole(['admin', 'editor'])) {
+
+            // Rotate accounts
+            $account = $accounts[$index % $accounts->count()];
+            $subjectTemplate = $subjectTemplates[array_rand($subjectTemplates)];
+
+        } else {
+
+            // Normal user → first account only
+            $account = $accounts->first();
+            $subjectTemplate = "New Dispatch Alert for {name}";
+        }
+
+        $subject = str_replace("{name}", $name, $subjectTemplate);
+
+        // 🔥 Dynamic Mail Config
+       Config::set('mail.mailers.dynamic', [
+    'transport'  => 'smtp',
+    'host'       => 'smtp.gmail.com',
+    'port'       => 587,      // correct Gmail port
+    'encryption' => 'tls',    // TLS for Gmail
+    'username'   => trim($account->email),
+    'password'   => trim($account->password), // must be plain App Password
+]);
+
+Config::set('mail.from.address', trim($account->email));
+Config::set('mail.from.name', $account->name);
+
+        Mail::mailer('dynamic')
+            ->to($item['email'])
+            ->send(new TruckerMail($subject, $item));
+
+        sleep(7);
+    }
+
+    return back()->with('success', 'Emails sent successfully!');
 }
+
+
 }

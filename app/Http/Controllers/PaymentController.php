@@ -81,7 +81,7 @@ $user = User::create([
                 } elseif ($amount === 150) {
                     $plan = 'gold';
                 } else {
-                    $plan = 'custom';
+                    $plan = 'free';
                 }
 
             Payment::create([

@@ -22,10 +22,10 @@ class UserController extends Controller
     public function assignRole(Request $request, $id)
     {
         $request->validate([
-            'role' => 'required|in:admin,editor,user'
+            'role' => 'required|in:admin,editor,user,guest'
         ]);
 
-        $user = User::findOrFail($id);
+        $user = User::findOrFail($id);        
 
         // Sync role (remove old, assign new)
         $user->syncRoles([$request->role]);

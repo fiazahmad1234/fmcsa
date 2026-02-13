@@ -42,6 +42,8 @@
                                     <option value="admin" @if($user->hasRole('admin')) selected @endif>Admin</option>
                                     <option value="editor" @if($user->hasRole('editor')) selected @endif>Editor</option>
                                     <option value="user" @if($user->hasRole('user')) selected @endif>User</option>
+                                    <option value="guest" @if($user->hasRole('guest')) selected @endif>Guest</option>
+
                                 </select>
                                 <button type="submit" class="btn btn-sm btn-success">Assign</button>
                             </form>

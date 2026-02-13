@@ -105,107 +105,119 @@
     }
 </style>
 
-<nav class="col-md-2 d-none d-md-block sidebar shadow-lg">
+<nav class="col-md-2  d-none d-md-block sidebar shadow-lg position-relative">
     <div class="sidebar-sticky">
         <div class="section-heading">
             <h2 class="text-white">
-                TRACK<span class="logo-accent">&GO</span>
+           <a href="{{url('home')}}">    TRACK<span class="logo-accent">&GO</span></a>
             </h2>
         </div>
 
         <ul class="nav flex-column mt-2">
             <li class="nav-item">
-                <a class="nav-link active" href="{{route('dashboard')}}">
+                <a class="nav-link active" href="{{ route('dashboard')}}">
                     <i class="bi bi-grid-1x2-fill"></i> DASHBOARD
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-person-circle"></i> PROFILE 
-                    <span class="badge-new">NEW</span>
+                <a class="nav-link" href="{{ route('profile')}}">
+                    <i class="bi bi-person-circle"></i>PROFILE 
                 </a>
             </li>
+
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-briefcase"></i> PROJECTS
-                    <span class="badge-new">NEW</span>
+                <a class="nav-link" href="{{route('user-plan')}}">
+                    <i class="bi bi-check2-square"></i> Plans
                 </a>
-            </li>
-
+                
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-check2-square"></i> TASKS
+                <a class="nav-link" href="{{route('email-users')}}">
+                    <i class="bi bi-check2-square"></i>Email set
                 </a>
             </li>
-
+             <li class="nav-item">
+                <a class="nav-link" href="{{url('home')}}">
+                    <i class="bi bi-briefcase"></i>HOME
+                   
+                </a>
+            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-file-earmark-text"></i> FORMS
-                </a>
+                <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
+                    @csrf
+                    <button type="submit" class="btn btn-link nav-link text-danger p-0">
+                        <i class="bi bi-box-arrow-right"></i> Sign Out
+                    </button>
+                </form>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-gear"></i> SETTINGS
-                </a>
-            </li>
-
             <hr class="mx-3 my-4 border-secondary opacity-25">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('users') }}">
+            <i class="bi bi-people"></i> USERS
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ url('paid-users') }}">
+            <i class="bi bi-people"></i> Premium User
+        </a>
+    </li>
+    <li class="nav-item">
+    <a class="nav-link" href="{{ url('all-configuration') }}">
+        <i class="bi bi-envelope-fill"></i> All Mails
+    </a>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('dashboard-contacts') }}">
+        <i class="bi bi-envelope-fill"></i> Message
+    </a>
+</li>
+ <li class="nav-item">
+    <a class="nav-link" href="{{ route('subscriber-all') }}">
+         <i class="bi bi-people"></i> Subscriber
+         <!-- <span class="badge bg-danger ms-2"> new<span> -->
+    </a>
+</li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{url('users')}}">
-                    <i class="bi bi-people"></i> USERS
-                </a>
-                  <li class="nav-item">
-                <a class="nav-link" href="{{url('paid-users')}}">
-                    <i class="bi bi-people"></i> Premium User
-                </a>
-            </li>
-            </li>
+
         </ul>
+         <div class="settings-link position-absolute text-start" 
+             style="bottom:2px; width:100%;">
+            <a href="" class="nav-link d-inline-flex flex-column align-items-center justify-content-center"
+               style="padding:0.5rem; border-radius:0.5rem; color:#38bdf8;">
+                <i class="bi bi-gear-fill"><small>Settings</small></i>
+            </a>
+        </div>
     </div>
 </nav>
 <style>
-    
     </style>
-
         <!-- Main content -->
 <main class="col-md-10 ms-sm-auto px-4">
             <!-- Top bar -->
-            <div class="d-flex justify-content-between align-items-center pt-3 pb-2 mb-4 border-bottom">
+           <div class="d-flex justify-content-center justify-content-md-between align-items-center gap-2 gap-md-3 flex-wrap flex-md-nowrap p-md-3 p-0 mb-2 mb-md-0">
 
-            <div class="section-heading">
-            <h2>Track<em> & Go</em> <span>- Welcome,  </span> {{ auth()->user()->name ?? 'Guest' }}</h2>
+            <div class="section-heading" >
+            <h2 class=""style="padding:1px;">Track<em>&Go</em><span>-Welcome,</span> {{ auth()->user()->name ?? 'Guest' }}</h2>
             </div>
             <div class="d-flex align-items-center position-relative gap-3">
+            <div>
+            <!-- Fullscreen Icon Button -->
+            <i id="fullscreenBtn" class="fa-solid fa-expand" style="font-size:25px; cursor:pointer;"></i>
+            </div>
+        
+           <a href="{{route('checkout')}}"><button id="zoomBtn" class="zoom-btn">
+                <i class="fa-solid fa-credit-card me-2"></i> Payment
+            </button>
 
-    <!-- Chat Icon with Badge -->
-    <div class="position-relative">
-        <i class="bi bi-chat-left-text fs-4"></i>
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-            5
-        </span>
-    </div>
+</a>
 
-    <!-- Avatar -->
-    <div class="fb-avatar" data-bs-toggle="modal" data-bs-target="#avatarModal">
-        <img id="profileAvatar"
-             src="{{ auth()->user()->profile_image ? asset('storage/profile_images/' . auth()->user()->profile_image) : asset('assets/images/user-placholder.jpg') }}">
-    </div>
-
-    <!-- Logout Button -->
-    <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
-        @csrf
-        <button type="submit" class="btn btn-outline-danger btn-sm">
-            Logout
-        </button>
-    </form>
+            <div class="fb-avatar" data-bs-toggle="modal" data-bs-target="#avatarModal">
+                <img id="profileAvatar"
+                    src="{{ auth()->user()->profile_image ? asset('storage/profile_images/' . auth()->user()->profile_image) : asset('assets/images/user-placholder.jpg') }}">
+            </div>
 
 </div>
-
-
 <!-- Modal -->
 <div class="modal fade" id="avatarModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">

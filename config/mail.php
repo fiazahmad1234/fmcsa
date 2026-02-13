@@ -52,8 +52,8 @@ return [
         'transport' => 'smtp',
         'host' => 'smtp.gmail.com', // or your provider
         'port' => 587,
-        'username' => 'fiazahmad13072@gmail.com',
-        'password' => 'zccurriidgdlhmlc',
+        'username' => 'davidbrown13072@gmail.com',
+        'password' => 'lvoieoydhvmpoqpd',
         'encryption' => 'tls',
     ],
 

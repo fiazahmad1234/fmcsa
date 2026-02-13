@@ -24,9 +24,8 @@ class DotDataExport implements FromArray, WithHeadings, WithEvents
                 'Drivers' => $row['Drivers'] ?? '',
                 'Phone' => $row['Phone'] ?? '',
                 'Email' => mb_strimwidth($row['Email'] ?? '', 0, 50, '...'),
-                'Country' => $row['Country'] ?? '',
-                'Source' => mb_strimwidth($row['Source'] ?? '', 0, 50, '...'),
-                'Error' => mb_strimwidth($row['Error'] ?? '', 0, 50, '...')
+                'Country' => $row['Location'] ?? '',
+                'Authority'=>$row['OperatingStatus']
             ];
         }, $data);
     }
@@ -48,8 +47,7 @@ class DotDataExport implements FromArray, WithHeadings, WithEvents
             'Phone',
             'Email',
             'Country',
-            'Source',
-            'Error'
+            'Authority',
         ];
     }
 

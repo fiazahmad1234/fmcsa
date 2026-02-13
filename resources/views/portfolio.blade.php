@@ -50,9 +50,9 @@
     }
 </style>
 
-<div class="container mt-5 mb-5 py-5">
+<div class="container mt-5 mb-5 py-">
     
-    <div class="text-center mb-5 mt-5">
+    <div class="text-center mb-5 mt-3">
               <div class="mb-3">
                     <h1 class="main-heading"> Our <span class="text-trending">Tool</span>
                  </span><span class="text-news">Portfolio</span>

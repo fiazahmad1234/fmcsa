@@ -15,12 +15,24 @@
                 <h6>Welcome to Space Dynamic</h6>
                 <h2>We Make <em> Dispatching</em> &amp; <span>Easy</span> Reliable</h2>
                 <p>Track & Go Dispatch is a professional truck dispatching platform designed to streamline logistics and fleet management <a rel="nofollow" href="https://templatemo.com/page/1" target="_parent">TemTrack & GoplateMo</a>.</p>
-                <form id="search" action="#" method="GET">
+        
+        @if(session('success1'))
+                    <div class="alert alert-success">
+                        {{ session('success1') }}
+                    </div>
+                @endif
+                
+
+                <!-- ✅ Validation Errors -->
+                    
+                <form method="POST" action="{{route('subscribe-home')}}">
+                      @csrf
+
                   <fieldset>
-                    <input type="address" name="address" class="email" placeholder="Your website URL..." autocomplete="on" required>
+                    <input type="email" name="email" class="email" placeholder="Enter your email to receive news" required>
                   </fieldset>
                   <fieldset>
-                    <button type="submit" class="main-button">Analyze Site</button>
+                    <button type="submit" class="main-button">Subscribe</button>
                   </fieldset>
                 </form>
               </div>
@@ -39,7 +51,7 @@
 
 
 <div class="container py-5 text-center">
-  
+
   <div class="mb-5">
     <h1 class="main-heading">
       Check Out Our <span class="text-trending">Trending</span>
@@ -48,59 +60,70 @@
   </div>
 
   <div class="row g-4 justify-content-center">
-    
-    <div class="col-md-3">
+
+    <!-- Free Plan -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm p-4 offer-card">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-muted"><i class="bi bi-unlock"></i></div>
           <h5 class="fw-bold text-uppercase small tracking-widest text-secondary">Free Plan</h5>
           <h2 class="price-tag">Free</h2>
-          <p class="feature-text text-muted">Essential access to basic tools where you can <strong>fetch number data</strong> instantly.</p>
-<a href="/login" class="btn btn-outline-dark w-100 rounded-pill mt-auto">
-    Get Started
-</a>
+          <p class="feature-text text-muted">
+            Essential access to basic tools where you can <strong>fetch number data</strong> instantly.
+          </p>
+          <p class="fw-semibold mt-auto">Fetch: 2 Mails</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
+    <!-- Pro Lead -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm p-4 offer-card">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-trending"><i class="bi bi-person-badge"></i></div>
           <h5 class="fw-bold text-uppercase small text-secondary">Pro Lead</h5>
-          <h2 class="price-tag">$50</h2>
-          <p class="feature-text text-muted">Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.</p>
-        <a href="{{ route('pro-check', 'pro') }}" class="btn btn-outline-primary">Choose Pro</a>
-     </div>
-      </div>
-    </div>
-
-    <div class="col-md-3">
-      <div class="card h-100 shadow-lg p-4 offer-card border-0" style="background: #ffffff;">
-        <div class="card-body d-flex flex-column">
-          <div class="display-6 mb-2 text-news"><i class="bi bi-envelope-paper-heart"></i></div>
-          <h5 class="fw-bold text-uppercase small text-secondary">Business</h5>
-          <h2 class="price-tag text-news">$100</h2>
-          <p class="feature-text text-muted">Full communication suite to <strong>send unlimited emails</strong> from a single account.</p>
-<a href="{{ route('pro-check', 'business') }}" class="btn btn-outline-warning">Choose Business</a>
+          <h2 class="price-tag">$100</h2>
+          <p class="feature-text text-muted">
+            Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.
+          </p>
+          <p class="fw-semibold mt-auto">Fetch: 500 Mails</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
+    <!-- Business -->
+    <div class="col-12 col-md-6 col-lg-3">
+      <div class="card h-100 shadow-lg p-4 offer-card border-0" style="background: #ffffff;">
+        <div class="card-body d-flex flex-column align-items-center text-center">
+          <div class="display-6 mb-2 text-news"><i class="bi bi-envelope-paper-heart"></i></div>
+          <h5 class="fw-bold text-uppercase small text-secondary">Business</h5>
+          <h2 class="price-tag text-news">$150</h2>
+          <p class="feature-text text-muted">
+            Full communication suite to <strong>send unlimited emails</strong> from a single account.
+          </p>
+          <p class="fw-semibold mt-auto">Fetch: 100 Mails</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Automation / Gold -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm p-4 offer-card bg-dark text-white">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-info"><i class="bi bi-cpu-fill"></i></div>
           <h5 class="fw-bold text-uppercase small text-info">Automation</h5>
           <h2 class="price-tag">$150</h2>
-          <p class="feature-text text-light opacity-75">Scale up with <strong>auto-emails across multiple accounts</strong> with 1-minute intervals.</p>
-<a href="{{ route('pro-check', 'gold') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-semibold">Choose Gold</a>
+          <p class="feature-text text-light opacity-75">
+            Scale up with <strong>auto-emails across multiple accounts</strong> with 1-minute intervals.
+          </p>
+          <p class="fw-semibold mt-auto text-danger">Unlimited & Auto-mails</p>
         </div>
       </div>
     </div>
 
   </div>
 </div>
+
 
 
 
@@ -363,16 +386,36 @@
           </div>
         </div>
         <div class="col-lg-6 wow fadeInRight" data-wow-duration="0.5s" data-wow-delay="0.25s">
-          <form id="contact" action="" method="post">
+     
+
+          <form id="contact" action="{{route('contact.store')}}" method="post">
+                @csrf
+
             <div class="row">
+                   @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show">
+        {{ session('success') }}
+        
+    </div>
+@endif
               <div class="col-lg-6">
+                    
                 <fieldset>
                   <input type="name" name="name" id="name" placeholder="Name" autocomplete="on" required>
                 </fieldset>
               </div>
               <div class="col-lg-6">
                 <fieldset>
-                  <input type="surname" name="surname" id="surname" placeholder="Surname" autocomplete="on" required>
+                  <input type="text" name="number" id="surname" placeholder="Number">
                 </fieldset>
               </div>
               <div class="col-lg-12">
@@ -399,5 +442,6 @@
       </div>
     </div>
   </div>
+
 
 @endsection

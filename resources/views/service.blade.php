@@ -20,6 +20,7 @@
         align-items: center; /* vertical center */
         color: white;
     }
+    
 
     .hero-section h1 {
         font-size: 2.8rem;
@@ -146,8 +147,8 @@
         border: 1px solid #eee;
     }
     .hero-section2 {
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
-                url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=2070') center/cover no-repeat;
+background: url('{{ asset('assets/images/banner-for-service.png') }}') center/cover no-repeat;
+
     min-height: 60vh; /* height of the section */
     display: flex;
     align-items: center; /* vertically center content */

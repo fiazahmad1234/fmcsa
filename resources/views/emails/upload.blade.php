@@ -19,6 +19,11 @@
                 {{ session('success') }}
             </p>
         @endif
+          @if(session('error'))
+            <p style="color: red; font-size: 14px; margin-bottom: 20px;">
+                {{ session('error') }}
+            </p>
+        @endif
 
         <!-- Form -->
         <form action="{{ route('send.emails') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; align-items: center;">

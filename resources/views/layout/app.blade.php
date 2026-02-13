@@ -29,6 +29,43 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 </head>
 <body class="d-flex flex-column min-vh-100">
+
+<div class="p-2" style="width:100%; background:#03a4ed; color:#fff; overflow:hidden; position:relative; z-index:9999; font-weight:600; font-family:Arial, sans-serif;">
+   <div class="scrolling-banner">
+        <span>Email Fetching • Auto Mail • Smart Configuration • Dashboard Analytics • Secure System • </span>
+        <span>Email Fetching • Auto Mail • Smart Configuration • Dashboard Analytics • Secure System • </span>
+        <span>Email Fetching • Auto Mail • Smart Configuration • Dashboard Analytics • Secure System • </span>
+        <span>Email Fetching • Auto Mail • Smart Configuration • Dashboard Analytics • Secure System • </span>
+    </div>
+</div>
+
+<style>
+.scrolling-banner {
+    display: flex;
+    width: fit-content;
+    animation: scroll 20s linear infinite;
+}
+
+.scrolling-banner span {
+    white-space: nowrap;
+    padding-right: 50px; /* spacing between repeated text */
+}
+
+.scrolling-banner:hover {
+    animation-play-state: paused; /* pause on hover */
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+</style>
+
+
    <!-- ***** Preloader Start ***** -->
   <!-- <div id="js-preloader" class="js-preloader">
     <div class="preloader-inner">
@@ -43,7 +80,8 @@
   <!-- ***** Preloader End ***** -->
 
   <!-- ***** Header Area Start ***** -->
-  <header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+<header class="header-area header-sticky wow slideInDown position-sticky top-0" 
+        data-wow-duration="0.75s" data-wow-delay="0s" style="z-index: 9999;">    
     <div class="container">
       <div class="row">
         <div class="col-12">
@@ -59,21 +97,14 @@
               <li class="scroll-to-section"><a href="{{ url('/service') }}">Services</a></li>
               <li class="scroll-to-section"><a href="{{ url('/portfolio') }}">Portfolio</a></li>
                 <li class="scroll-to-section"><a href="{{ url('/about') }}">About Us</a></li>
-
-<li class="scroll-to-section">
-    @auth
-        <a href="#" class="text-danger" style="position: relative;">
-            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                @csrf
-                <button type="submit" style="all: unset; cursor: pointer;">
-                    Logout
-                </button>
-            </form>
-        </a>
-    @else
-        <a href="{{ route('login') }}">Login</a>
-    @endauth
-</li>
+                <li class="scroll-to-section">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="text-danger" style="position: relative;">dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}">Login</a>
+                    @endauth
+                </li>
               <li class="scroll-to-section"><div class="main-red-button"><a href="{{route('contact')}}">Contact Now</a></div></li> 
             </ul>        
             <a class='menu-trigger'>
@@ -81,13 +112,20 @@
             </a>
             <!-- ***** Menu End ***** -->
           </nav>
+          
         </div>
       </div>
     </div>
+
   </header>
 
     <!-- Main content -->
     <main class="flex-grow-1">
+          @if(request()->is('/'))
+    @include('popup')
+@endif
+
+
         @yield('content')
     </main>
 
@@ -107,13 +145,12 @@
     companies, brokers, and logistics professionals to verify carriers.
                 </p>
 
-
                 <!-- Social Icons -->
                 <div class="d-flex gap-3 mt-3">
-                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-facebook text-white"></i></a>
-                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-twitter-x text-white"></i></a>
-                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-linkedin text-white" ></i></a>
-                    <a href="#" class="text-white-50 fs-5"><i class="bi bi-envelope text-white"></i></a>
+                    <a href="#" class="text-white-50 fs-5 custome-last2-footer"><i class="bi bi-facebook text-white"></i></a>
+                    <a href="#" class="text-white-50 fs-5 custome-last2-footer"><i class="bi bi-twitter-x text-white"></i></a>
+                    <a href="#" class="text-white-50 fs-5 custome-last2-footer"><i class="bi bi-linkedin text-white" ></i></a>
+                    <a href="#" class="text-white-50 fs-5 custome-last2-footer"><i class="bi bi-envelope text-white"></i></a>
                 </div>
             </div>
 
@@ -122,20 +159,11 @@
             <div class="section-heading">
             <h2> <span class="text-danger">Quick <em>Links</em></h2></div> <hr class="about-line" stlye="color:red">
                             <ul class="list-unstyled small text-white">
-                    <li><a class="footer-link text-white" href="/">Home</a></li>
-                    <li><a class="footer-link text-white" href="{{ url('/service') }}">Services</a></li>
-                    <li><a class="footer-link text-white" href="{{ url('/portfolio') }}">Portfolio</a></li>
-                    <li><a class="footer-link text-white" href="{{ url('/about') }}">About Us</a></li>
-                    <li><a class="footer-link text-white" href="{{ route('contact') }}">Contact Us</a></li>
-
-                    @auth
-                        <li><a class="footer-link  text-danger" href="{{ route('logout') }}">Logout</a></li>
-                    @else
-                        <li><a class="footer-link text-white" href="{{ route('login') }}">Login</a></li>
-                    @endauth 
-
-                    <li><a class="footer-link" href="{{ route('email-upload') }}">Email Tool</a></li>
-                    <li><a class="footer-link" href="{{ route('extract-data') }}">Analytics Tools</a></li>
+               <li><i class="bi bi-chevron-right t custome-footer me-2"></i><a class="footer-link text-white" href="/">Home</a></li>
+    <li><i class="bi bi-chevron-right text-light  custome-footer me-2" ></i><a class="footer-link text-white" href="{{ url('/service') }}">Services</a></li>
+    <li><i class="bi bi-chevron-right   custome-footer me-2"></i><a class="footer-link text-white" href="{{ url('/portfolio') }}">Portfolio</a></li>
+    <li><i class="bi bi-chevron-right  custome-footer me-2"></i><a class="footer-link text-white" href="{{ url('/about') }}">About Us</a></li>
+    <li><i class="bi bi-chevron-right  custome-footer me-2"></i><a class="footer-link text-white" href="{{ route('contact') }}">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -145,15 +173,15 @@
             <h2> <span class="text-danger">Contact <em>Us</em></h2></div> <hr class="about-line" stlye="color:red">
                             <ul class="list-unstyled small text-white-50">
                     <li class="mb-2 text-white">
-                        <i class="bi bi-geo-alt me-2 text-white"></i>
+                        <i class="bi bi-geo-alt me-2 text-white custome-last-footer"></i>
                         25-11 41st Ave, Queens, NY 11101
                     </li>
                     <li class="mb-2 text-white">
-                        <i class="bi bi-envelope me-2 text-white"></i>
+                        <i class="bi bi-envelope me-2 text-white custome-last-footer"></i>
                         johnsmith13072@gmail.com
                     </li>
                     <li class="text-white">
-                        <i class="bi bi-telephone me-2 text-white"></i>
+                        <i class="bi bi-telephone me-2 text-white custome-last-footer"></i>
                         (0306)-649-8742 / (888)-649-8772
                     </li>
                 </ul>
@@ -164,13 +192,49 @@
         <hr class="border-secondary my-4">
 
         <div class="text-center small text-white-50">
-            &copy; {{ date('Y') }} <strong>FMCSA Analytics</strong>. All Rights Reserved.
+            &copy; {{ date('Y') }} <strong>Track & Go</strong>. All Rights Reserved.
         </div>
     </div>
 </footer>
 
+<a href="https://wa.me/923067098742" target="_blank" style="
+    position: fixed;
+    bottom: 70px;
+    right: 20px;
+    z-index: 999;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 28px;
+    text-decoration: none;
+">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+ <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const menuTrigger = document.querySelector('.menu-trigger');
+    const nav = document.querySelector('.nav');
+
+    if (menuTrigger) {
+      menuTrigger.addEventListener('click', function() {
+        // Toggle the 'active' class on both the trigger (for animation) and the nav (for visibility)
+        this.classList.toggle('active');
+        nav.classList.toggle('active');
+      });
+    }
+  });
+</script> 
+<!-- respnosvie -->
+
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+@stack('scripts')
 </body>
 </html>

@@ -10,6 +10,8 @@ use Maatwebsite\Excel\Facades\Excel;
 
 use App\Exports\DotDataExport;
 use App\Exports\EmailSubjectExport;
+use App\Models\UserDailyFetch;
+use Carbon\Carbon;
 
 class FmcsaController extends Controller
 {
@@ -31,6 +33,10 @@ class FmcsaController extends Controller
         $start = (int) $request->start_dot;
         $end   = (int) $request->end_dot;
         $mcRange = range(min($start, $end), max($start, $end));
+        //code for validaton
+        
+       
+
 
         $headers = [
             'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/122.0.0.0',
@@ -148,9 +154,59 @@ class FmcsaController extends Controller
                 }
             }
         }
+       // -----------------------------
+// Update daily fetch totals in DB
+// -----------------------------
+$user = auth()->user();
+$role = $user->getRoleNames()->first(); // Spatie roles
+$today = Carbon::today();
 
-        $request->session()->put('allData', $allData);
-        return view('welcome', compact('allData'));
+// Get or create today's record
+$dailyFetch = UserDailyFetch::firstOrCreate(
+    ['user_id' => $user->id, 'fetch_date' => $today],
+    ['mc_count' => 0, 'email_count' => 0]
+);
+
+// Role-based daily limits
+$limits = [
+    'guest'  => 20,
+    'user'   => 500,
+    'editor' => 1000,
+];
+
+$dailyLimit = $limits[$role ?? 'guest'] ?? 20;
+
+// Calculate remaining emails today
+$remainingMc = max(0, $dailyLimit - $dailyFetch->mc_count);
+
+if ($remainingMc <= 0) {
+    return back()->with('error', 'You have reached your daily fetching limit. Come back tomorrow or get a role to fetch more.');
+}
+
+// Limit API data to what’s allowed today
+$allowedData = array_slice($allData, 0, $remainingMc);
+
+// Count valid emails
+$totalMcFetched = count($allowedData);
+$totalEmailsFetched = 0;
+
+foreach ($allowedData as $mc => $data) {
+    if (isset($data['Email']) && !in_array($data['Email'], ['Not Found','Timeout/Error'])) {
+        $totalEmailsFetched++;
+    }
+}
+
+// Save today's totals
+$dailyFetch->mc_count    += $totalMcFetched;
+$dailyFetch->email_count += $totalEmailsFetched;
+$dailyFetch->save();
+
+// Store in session and send to view
+$request->session()->put('allData', $allowedData);
+
+return view('welcome', [
+    'allData' => $allowedData
+]);
     }
 
     private function quickMatch($pattern, $html)

@@ -19,13 +19,12 @@ class EmailSubjectExport implements FromCollection, WithHeadings
         return collect($this->data)->map(function($item) {
             return [
                 'email' => $item['Email'] ?? '',
-                'subject' => $item['subject'] ?? '',
             ];
         });
     }
 
     public function headings(): array
     {
-        return ['Email', 'Subject'];
+        return ['email'];
     }
 }

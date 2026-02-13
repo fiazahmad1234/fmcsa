@@ -25,17 +25,11 @@ Route::get('dashboard', function () {
     return view('dashboard.index'); // just return the view
 })->name('dashboard')->middleware('auth'); // name the route here
 
-
-
-
-
- 
     Route::get('trucker', function () {
     return view('emails.trucker');
 });
 
-Route::get('/', function () { return view('welcome'); });
-
+Route::get('/', function () { return view('home'); });
 Route::post('/paypal/create-order', [PayPalController::class, 'createOrder']);
 Route::post('/paypal/capture-order/{orderId}', [PayPalController::class, 'captureOrder']);
 Route::resource('subject',SubjectController::class)->except(['show']);
@@ -62,7 +56,7 @@ use App\Http\Controllers\EmailSenderController;
 
 Route::get('/email-upload', [EmailSenderController::class, 'index'])->name('email-upload');
 Route::post('/send-emails', [EmailSenderController::class, 'sendEmails'])->name('send.emails');
-      Route::get('', function () {
+      Route::get('home', function () {
     return view('home');
 });
 Route::post('/emails/export', [FmcsaController::class, 'exportEmailsExcel'])->name('emails.export');
