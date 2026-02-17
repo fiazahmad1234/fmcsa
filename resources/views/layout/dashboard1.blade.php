@@ -152,6 +152,7 @@
                 </form>
             </li>
             <hr class="mx-3 my-4 border-secondary opacity-25">
+@if(auth()->user() && auth()->user()->hasAnyRole(['admin', 'editor']))
     <li class="nav-item">
         <a class="nav-link" href="{{ url('users') }}">
             <i class="bi bi-people"></i> USERS
@@ -163,21 +164,21 @@
         </a>
     </li>
     <li class="nav-item">
-    <a class="nav-link" href="{{ url('all-configuration') }}">
-        <i class="bi bi-envelope-fill"></i> All Mails
-    </a>
-</li>
-  <li class="nav-item">
-    <a class="nav-link" href="{{ route('dashboard-contacts') }}">
-        <i class="bi bi-envelope-fill"></i> Message
-    </a>
-</li>
- <li class="nav-item">
-    <a class="nav-link" href="{{ route('subscriber-all') }}">
-         <i class="bi bi-people"></i> Subscriber
-         <!-- <span class="badge bg-danger ms-2"> new<span> -->
-    </a>
-</li>
+        <a class="nav-link" href="{{ url('all-configuration') }}">
+            <i class="bi bi-envelope-fill"></i> All Mails
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('dashboard-contacts') }}">
+            <i class="bi bi-envelope-fill"></i> Message
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('subscriber-all') }}">
+            <i class="bi bi-people"></i> Subscriber
+        </a>
+    </li>
+@endif
 
 
         </ul>

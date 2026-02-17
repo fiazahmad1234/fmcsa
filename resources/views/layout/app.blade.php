@@ -95,7 +95,7 @@
             <ul class="nav">
                 <li class="scroll-to-section"><a href="/">Home</a></li>
               <li class="scroll-to-section"><a href="{{ url('/service') }}">Services</a></li>
-              <li class="scroll-to-section"><a href="{{ url('/portfolio') }}">Portfolio</a></li>
+              <!-- <li class="scroll-to-section"><a href="{{ url('/portfolio') }}">Portfolio</a></li> -->
                 <li class="scroll-to-section"><a href="{{ url('/about') }}">About Us</a></li>
                 <li class="scroll-to-section">
                     @auth
@@ -105,6 +105,18 @@
                         <a href="{{ route('login') }}">Login</a>
                     @endauth
                 </li>
+<li class="scroll-to-section dropdown-language d-none d-md-block">
+    <a href="javascript:void(0);" onclick="toggleLangMenu()" class="lang-btn">
+        Language ▾
+    </a>
+
+    <ul class="lang-dropdown">
+        <li><a href="#" onclick="changeLanguage('en')">English</a></li>
+        <li><a href="#" onclick="changeLanguage('ur')">اردو</a></li>
+    </ul>
+</li>
+
+
               <li class="scroll-to-section"><div class="main-red-button"><a href="{{route('contact')}}">Contact Now</a></div></li> 
             </ul>        
             <a class='menu-trigger'>
@@ -121,6 +133,8 @@
 
     <!-- Main content -->
     <main class="flex-grow-1">
+        <div id="google_translate_element" style="display:none;"></div>
+
           @if(request()->is('/'))
     @include('popup')
 @endif
@@ -230,7 +244,30 @@
     }
   });
 </script> 
-<!-- respnosvie -->
+<!-- google traslator -->
+ <script>
+function toggleLangMenu() {
+    document.querySelector('.dropdown-language')
+        .classList.toggle('active');
+}
+
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        autoDisplay: false
+    }, 'google_translate_element');
+}
+
+function changeLanguage(lang) {
+    var select = document.querySelector(".goog-te-combo");
+    if (select) {
+        select.value = lang;
+        select.dispatchEvent(new Event("change"));
+    }
+}
+</script>
+
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
     <!-- Bootstrap JS -->
     <script src="{{ asset('assets/js/script.js') }}"></script>

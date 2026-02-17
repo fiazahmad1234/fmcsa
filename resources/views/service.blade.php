@@ -11,14 +11,15 @@
     /* HERO SECTION */
     .hero-section {
         background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-        url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2070');
+      url('{{ asset('assets/images/service1.png') }}') center/cover no-repeat;;
         background-size: cover;
         background-position: center;
         max-width: 100%;
-        min-height: 80vh; /* extended height */
+        min-height: 60vh; /* extended height */
         display: flex;
         align-items: center; /* vertical center */
         color: white;
+        justify-content:center;
     }
     
 
@@ -201,7 +202,7 @@ background: url('{{ asset('assets/images/banner-for-service.png') }}') center/co
 <section class="hero-section">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-6">
+            <div class="col-lg-12 m-2 ms-md-5">
                  <div class="">
                     <h1 class="main-heading">
                 <span class="text-white">Data</span>.<span class="text-trending">Fetching</span>
@@ -279,9 +280,8 @@ background: url('{{ asset('assets/images/banner-for-service.png') }}') center/co
 </section>
 <!-- third seconton -->
 
-
 <div class="container py-5 text-center">
-  
+
   <div class="mb-5">
     <h1 class="main-heading">
       Check Out Our <span class="text-trending">Trending</span>
@@ -290,57 +290,70 @@ background: url('{{ asset('assets/images/banner-for-service.png') }}') center/co
   </div>
 
   <div class="row g-4 justify-content-center">
-    
-    <div class="col-md-3">
+
+    <!-- Free Plan -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm p-4 offer-card">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-muted"><i class="bi bi-unlock"></i></div>
           <h5 class="fw-bold text-uppercase small tracking-widest text-secondary">Free Plan</h5>
           <h2 class="price-tag">Free</h2>
-          <p class="feature-text text-muted">Essential access to basic tools where you can <strong>fetch number data</strong> instantly.</p>
-          <button class="btn btn-outline-dark w-100 rounded-pill mt-auto">Get Started</button>
+          <p class="feature-text text-muted">
+            Essential access to basic tools where you can <strong>fetch number data</strong> instantly.
+          </p>
+          <p class="fw-semibold mt-auto">Fetch: 2 Mails</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
+    <!-- Pro Lead -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm p-4 offer-card">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-trending"><i class="bi bi-person-badge"></i></div>
           <h5 class="fw-bold text-uppercase small text-secondary">Pro Lead</h5>
-          <h2 class="price-tag">$50</h2>
-          <p class="feature-text text-muted">Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.</p>
-          <button class="btn btn-outline-primary w-100 rounded-pill mt-auto">Choose Pro</button>
+          <h2 class="price-tag">$100</h2>
+          <p class="feature-text text-muted">
+            Advanced lookup capabilities to <strong>fetch email and phone numbers</strong> with ease.
+          </p>
+          <p class="fw-semibold mt-auto">Fetch: 500 Mails</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
+    <!-- Business -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-lg p-4 offer-card border-0" style="background: #ffffff;">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-news"><i class="bi bi-envelope-paper-heart"></i></div>
           <h5 class="fw-bold text-uppercase small text-secondary">Business</h5>
-          <h2 class="price-tag text-news">$100</h2>
-          <p class="feature-text text-muted">Full communication suite to <strong>send unlimited emails</strong> from a single account.</p>
-          <button class="btn btn-danger w-100 rounded-pill mt-auto" style="background-color: #ff4d4d; border: none;">Go Business</button>
+          <h2 class="price-tag text-news">$150</h2>
+          <p class="feature-text text-muted">
+            Full communication suite to <strong>send unlimited emails</strong> from a single account.
+          </p>
+          <p class="fw-semibold mt-auto">Fetch: 100 Mails</p>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
+    <!-- Automation / Gold -->
+    <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm p-4 offer-card bg-dark text-white">
-        <div class="card-body d-flex flex-column">
+        <div class="card-body d-flex flex-column align-items-center text-center">
           <div class="display-6 mb-2 text-info"><i class="bi bi-cpu-fill"></i></div>
           <h5 class="fw-bold text-uppercase small text-info">Automation</h5>
           <h2 class="price-tag">$150</h2>
-          <p class="feature-text text-light opacity-75">Scale up with <strong>auto-emails across multiple accounts</strong> with 1-minute intervals.</p>
-          <button class="btn btn-info w-100 rounded-pill mt-auto">Unlock Elite</button>
+          <p class="feature-text text-light opacity-75">
+            Scale up with <strong>auto-emails across multiple accounts</strong> with 1-minute intervals.
+          </p>
+          <p class="fw-semibold mt-auto text-danger">Unlimited & Auto-mails</p>
         </div>
       </div>
     </div>
 
   </div>
 </div>
+
 
 <!-- FEATURE SECTION -->
 <section class="py-5 bg-white">

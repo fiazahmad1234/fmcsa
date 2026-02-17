@@ -7,403 +7,296 @@
 @section('content')
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>FMCSA Carrier Lookup</title>
+    <title>FMCSA Intelligence Portal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<style>
-    body { 
-        background-color: #f0f2f5; 
-        font-family: 'Plus Jakarta Sans', sans-serif; 
-    }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body { background-color: #f8fafc; font-family: 'Inter', system-ui, sans-serif; }
+        
+        .search-card { border: none; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-top: 30px; }
+        .search-header { background: #1e293b; color: white; padding: 1.25rem; border-radius: 15px 15px 0 0; }
 
-    /* Attractive Header with Gradient */
-    .results-header {
-        background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%);
-        padding: 2.5rem 2rem;
-        border-radius: 16px 16px 0 0;
-        color: white;
-        box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
-    }
+        .results-container { background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
+        
+        /* Updated Header for Buttons */
+        .results-header { 
+            background: linear-gradient(135deg, #1e293b 0%, #3b82f6 100%); 
+            padding: 1.25rem 1.5rem; 
+            color: white; 
+        }
 
-    .results-header h4 {
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        margin-bottom: 5px;
-    }
+        .table thead th {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            padding: 1rem;
+        }
 
-    .results-header p {
-        opacity: 0.8;
-        font-size: 0.9rem;
-        margin-bottom: 0;
-    }
+        .fleet-text { font-weight: 600; font-size: 0.85rem; color: #0f172a; }
+        .status-pill { padding: 0.35rem 0.75rem; border-radius: 50px; font-size: 0.7rem; font-weight: 700; }
+        
+        /* Authority Colors */
+        .auth-danger { color: #ef4444; font-weight: 800; font-size: 0.75rem; }
+        .auth-success { color: #10b981; font-weight: 800; font-size: 0.75rem; }
 
-    /* Table Container Styling */
-    .table-card {
-        background: #ffffff;
-        border-radius: 0 0 16px 16px;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-        border: none;
-        margin-bottom: 3rem;
-    }
+        .header-btn {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
 
-    /* Professional Table Headings */
-    .table thead th {
-        background-color: #f8fafc;
-        color: #ffffff;
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.05rem;
-        padding: 1.25rem 1rem;
-        border-bottom: 2px solid #e2e8f0;
-    }
-
-    .table tbody td {
-        padding: 1.25rem 1rem;
-        border-bottom: 1px solid #f1f5f9;
-        vertical-align: middle;
-        font-size: 0.9rem;
-    }
-
-    /* Status Pill Badges */
-    .status-pill {
-        padding: 0.4rem 1rem;
-        border-radius: 8px;
-        font-size: 0.75rem;
-        font-weight: 700;
-    }
-    .status-active { background: #dcfce7; color: #15803d; }
-    .status-inactive { background: #fee2e2; color: #b91c1c; }
-
-    /* Hover effect */
-    .table-hover tbody tr:hover {
-        background-color: #f8fbff;
-        transition: all 0.2s ease;
-    }
-
-    .company-title {
-        color: #0f172a;
-        font-weight: 700;
-        font-size: 1rem;
-    }
-    .table thead th {
-        background-color: #157347;
-        font-weight: 700;
-        text-transform: uppercase;
-        font-size: 0.75rem;
-        letter-spacing: 0.05rem;
-        padding: 1.25rem 1rem;
-        border-bottom: 2px solid #e2e8f0;
-    }.card.shadow-lg.border-0 {
-  margin-top: 120px !important;
-}
-</style>
+        @media print {
+            .no-print, .search-card { display: none !important; }
+            .results-container { box-shadow: none; border: 1px solid #000; }
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluaid m-5">
-    <div class="card shadow-lg border-0">
-        <div class="card-header bg-primary text-white text-center">
-            <h4 class="mb-0">FMCSA Carrier Lookup</h4>
-            <small>Enter DOT numbers to fetch data</small>
-        </div>@if (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
+
+<div class="container py-4">
+    <div class="card search-card no-print mb-4">
+        <div class="search-header">
+                         <div class="section-heading">
+
+            <!-- <h5 class="mb-0"><i class="bi bi-search me-2"></i> Carrier Data Lookup</h5> -->
+            <h2 class="mb-0"> <i class="bi bi-search me-2" style="color:#03a3ec;"></i><sapn style="color:#03a3ec;"> Carrier</span> <span>Data Lookup</span></h2>
+@if(session('error'))
+<div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 rounded-3">
+    <div class="d-flex align-items-center">
+        <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+        <div>
+            <strong>Error!</strong>
+            <div class="small mt-1">
+                {{ session('error') }}
+            </div>
+        </div>
     </div>
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
 @endif
 
-        
 
-        <div class="card-body">
-      <form  id="queryForm" method="POST" action="{{ route('fmcsa.fetch') }}">
-    @csrf
-    <div class="row g-3 align-items-end">
-        <!-- Start DOT -->
-        <div class="col-md-5">
-            <label class="form-label fw-bold text-secondary">Start MC #</label>
-            <div class="input-group shadow-sm">
-                <span class="input-group-text bg-light border-2 border-end-0 text-muted">
-                    <i class="bi bi-play-circle"></i>
-                </span>
-                <input type="number" name="start_dot" class="form-control border-start-0" placeholder="1077300" required>
-            </div>
-        </div>
 
-        <!-- End DOT -->
-        <div class="col-md-5">
-            <label class="form-label fw-bold text-secondary">End MC #</label>
-            <div class="input-group shadow-sm">
-                <span class="input-group-text bg-light border-2 border-end-0 text-muted">
-                    <i class="bi bi-stop-circle"></i>
-                </span>
-                <input type="number" name="end_dot" class="form-control border-start-0" placeholder="1077400" required>
-            </div>
-        </div>
-
-        <!-- Fetch Button -->
-        <div class="col-md-2 d-grid">
-            <button type="submit" class="btn btn-primary btn-lg shadow-sm p-1">
-                <i class="bi bi-lightning-charge-fill "></i>FETCH
-            </button>
+        <div class="card-body p-4">
+            <form id="queryForm" method="POST" action="{{ route('fmcsa.fetch') }}">
+                @csrf
+                <div class="row g-3">
+                    <div class="col-md-5">
+                        <label class="form-label small fw-bold text-muted">START MC/DOT</label>
+                        <input type="number" name="start_dot" class="form-control" placeholder="1077300" required>
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label small fw-bold text-muted">END MC/DOT</label>
+                        <input type="number" name="end_dot" class="form-control" placeholder="1077400" required>
+                    </div>
+                    <div class="col-md-2 d-grid">
+                        <label class="form-label d-none d-md-block">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary fw-bold">FETCH</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-</form>
-
-
-    </div>
-</div>
-
-    <!-- Loading Spinner -->
-
-        <div id="loading" class="text-center py-5" style="display: none;">
-    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-3 fs-5">Fetching data, please wait...</p>
-</div>
 
     <div id="dataTableContainer">
+    @if(isset($allData) && count($allData) > 0)
+       <div class="results-header">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
 
-@if(isset($allData) && count($allData) > 0)
-<div class="container-fluid py-4 px-0">
-    <div class=" card card-custom border-none">
-         <div class="results-header d-flex justify-content-between align-items-center">
+        <!-- LEFT SIDE -->
         <div>
-            <h4><i class="bi bi-truck-flatbed me-2"></i> Carrier <span class="text-danger">Analytics Data</span></h4>
-            <p class="text-white">Real-time FMCSA snapshot for your requested DOT/MC numbers</p>
+            <h5 class="mb-1 fw-bold text-white">FMCSA Carrier Analytics</h5>
+            <small class="opacity-75">Verified SAFER Snapshot</small>
         </div>
-        <div class="text-end">
-            <span class="badge bg-white text-primary px-3 py-2 rounded-3 fw-bold shadow-sm">
-                {{ count($allData) }} Records
-            </span>
-        </div>
-    </div>
-    <!-- Desktop / Tablet Table -->
-<div class="table-responsive d-none d-md-block">
-    <table class="table table-striped table-bordered table-hover align-middle mb-0">
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>Address (County & State)</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Year</th>
-                <th>DOT</th>
-                <th>MC</th>
-                <th>Units</th>
-                <th>Drivers</th>
-                <th>Status</th>
-                <th>Type</th>
-                <th>Authority</th>
-                <th>Source</th>
-                <th>Error</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($allData as $data)
-                @php
-                    $status = strtoupper($data['Status'] ?? '');
-                    $badgeClass = ($status === 'ACTIVE') ? 'bg-danger text-white' : 'bg-success text-white';
-                @endphp
 
-                @if($status === 'ACTIVE' || $status === 'OFFLINE')
-                <tr>
-                    <td>{{ $data['CompanyName'] ?? '—' }}</td>
-                    <td>{{ $data['Location'] ?? '—' }}</td>
-                    <td>{{ $data['Phone'] ?? '—' }}</td>
-                    <td>{{ $data['Email'] ?? '—' }}</td>
-                    <td>{{ $data['MCS150Date'] ?? '—' }}</td>
-                    <td>{{ $data['DOT'] ?? '—' }}</td>
-                    <td>{{ $data['MC'] ?? '—' }}</td>
-                    <td class="text-center">{{ $data['PowerUnits'] ?? '0' }}</td>
-                    <td class="text-center">{{ $data['Drivers'] ?? '0' }}</td>
-                    <td>
-                        <span class="badge px-2 py-1 {{ $badgeClass }}">{{ $status ?: '—' }}</span>
-                    </td>
-                    <td>{{ $data['EntityType'] ?? '—' }}</td>
-                    <td>
-                        @if(Str::contains(strtoupper($data['OperatingStatus'] ?? ''), 'AUTHORIZED FOR PROPERTY'))
-                            <span class="text-success">AUTHORIZED</span>
-                        @else
-                            <span class="text-danger">NOT AUTHORIZED</span>
-                        @endif
-                    </td>
-                    <td>
-                        <a href="{{ $data['Source'] ?? 'https://safer.fmcsa.dot.gov/CompanySnapshot.aspx' }}" 
-                           target="_blank" class="btn btn-sm btn-outline-primary py-0 px-2">
-                           Source
-                        </a>
-                    </td>
-                    <td>
-                        @if(empty($data['Error']) || $data['Error'] === 'None')
-                            <span class="text-success">None</span>
-                        @else
-                            <span class="text-danger fw-bold">{{ $data['Error'] }}</span>
-                        @endif
-                    </td>
-                </tr>
-                @endif
-            @endforeach
-        </tbody>
-    </table>
+        <!-- RIGHT SIDE -->
+        <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+
+            <form method="POST" action="{{ route('fmcsa.export') }}" class="m-0">
+                @csrf
+                <input type="hidden" name="export_data" value='@json($allData)'>
+                <button type="submit" class="btn btn-light text-success header-btn">
+                    <i class="bi bi-file-earmark-excel me-1"></i>
+                    <span class="d-none d-sm-inline">Export All</span>
+                </button>
+            </form>
+
+            <form method="POST" action="{{ route('emails.export') }}" class="m-0">
+                @csrf
+                <input type="hidden" name="export_data" value='@json($allData)'>
+                <button type="submit" class="btn btn-light text-primary header-btn">
+                    <i class="bi bi-envelope me-1"></i>
+                    <span class="d-none d-sm-inline">Emails</span>
+                </button>
+            </form>
+
+            <button type="button"
+                    class="btn btn-light text-dark header-btn"
+                    onclick="window.print()">
+                <i class="bi bi-printer me-1"></i>
+                <span class="d-none d-sm-inline">Print</span>
+            </button>
+
+            <span class="badge bg-white text-primary px-3 py-2 rounded-pill fw-bold align-self-center">
+                {{ count($allData) }} Entities
+            </span>
+
+        </div>
+
+    </div>
 </div>
 
-<!-- Mobile Cards -->
-<div class="d-md-none">
+
+
+             <div class="d-none d-md-block">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Email & Phone</th>
+                            <th>Type & Fleet (U/D)</th>
+                            <th>Identity</th>
+                            <th>Status</th>
+                            <th>Authority</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        @foreach($allData as $data)
+                            @php
+                                $status = strtoupper($data['Status'] ?? '');
+                                $opStatus = strtoupper($data['OperatingStatus'] ?? '');
+                                $isAuth = Str::contains($opStatus, 'AUTHORIZED FOR PROPERTY');
+                                $entity = strtoupper($data['EntityType'] ?? 'CARRIER');
+                            @endphp
+                            <tr>
+                                <td>
+                                    
+                                    <div class="fw-bold text-dark">{{ $data['CompanyName'] ?? '—' }}</div>
+                                    <div class="small text-muted"><i class="bi bi-geo-alt me-1"></i>{{ $data['Location'] ?? '—' }}</div>
+                                </td>
+                                <td>
+                                    <div class="small fw-medium text-primary">{{ $data['Email'] ?? '—' }}</div>
+                                    <div class="small text-muted">{{ $data['Phone'] ?? '—' }}</div>
+                                </td>
+                                <td>
+                                    <div class="fleet-text">
+                                        type:{{ $entity }} <br>
+                                        unit:{{ $data['PowerUnits'] ?? '0' }} driv:{{ $data['Drivers'] ?? '0' }}
+                                    </div>
+                                </td>
+                                <td class="small">
+                                    <div class="text-secondary">DOT: {{ $data['DOT'] ?? '—' }}</div>
+                                    <div class="text-secondary">MC: {{ $data['MC'] ?? '—' }}</div>
+                                </td>
+                                <td>
+                                    <span class="status-pill {{ $status === 'ACTIVE' ? 'bg-success-subtle text-success' : 'bg-danger-subtle text-danger' }}">
+                                        {{ $status ?: 'INACTIVE' }}
+                                    </span>
+                                </td>
+                               <td>
+                                @if($isAuth )
+                            
+                                    <span class="auth-success">
+                                        <i class="bi bi-check-circle-fill me-1"></i>AUTHORIZED
+                                    </span>
+                                @else
+                                    <span class="auth-danger">
+                                        <i class="bi bi-x-circle-fill me-1"></i>NOT AUTHORIZED
+                                    </span>
+                                @endif
+                            </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <!-- MOBILE CARDS -->
+<div class="d-md-none p-3">
     @foreach($allData as $data)
         @php
             $status = strtoupper($data['Status'] ?? '');
+            $opStatus = strtoupper($data['OperatingStatus'] ?? '');
+            $isAuth = Str::contains($opStatus, 'AUTHORIZED');
+            $entity = strtoupper($data['EntityType'] ?? 'CARRIER');
         @endphp
 
-        @if($status === 'ACTIVE' || $status === 'OFFLINE')
-        <div class="card mb-2">
-            <div class="card-body p-2">
-                <p><strong>Company:</strong> {{ $data['CompanyName'] ?? '—' }}</p>
-                <p><strong>Address:</strong> {{ $data['Location'] ?? '—' }}</p>
-                <p><strong>Phone:</strong> {{ $data['Phone'] ?? '—' }}</p>
-                <p><strong>Email:</strong> {{ $data['Email'] ?? '—' }}</p>
-                <p><strong>Year:</strong> {{ $data['MCS150Date'] ?? '—' }}</p>
-                <p><strong>DOT:</strong> {{ $data['DOT'] ?? '—' }}</p>
-                <p><strong>MC:</strong> {{ $data['MC'] ?? '—' }}</p>
-                <p><strong>Units:</strong> {{ $data['PowerUnits'] ?? '0' }}</p>
-                <p><strong>Drivers:</strong> {{ $data['Drivers'] ?? '0' }}</p>
-                <p><strong>Status:</strong> 
-                    <span class="{{ $status === 'ACTIVE' ? 'text-danger' : 'text-success' }}">{{ $status }}</span>
-                </p>
-                <p><strong>Type:</strong> {{ $data['EntityType'] ?? '—' }}</p>
-                <p><strong>Authority:</strong> 
-                    @if(Str::contains(strtoupper($data['OperatingStatus'] ?? ''), 'AUTHORIZED FOR PROPERTY'))
-                        <span class="text-success">AUTHORIZED</span>
+        <div class="card mb-3 shadow-sm border-0 rounded-4">
+            <div class="card-body">
+
+                <h6 class="fw-bold mb-1">
+                    {{ $data['CompanyName'] ?? '—' }}
+                </h6>
+
+                <div class="small text-muted mb-2">
+                    <i class="bi bi-geo-alt"></i>
+                    {{ $data['Location'] ?? '—' }}
+                </div>
+
+                <div class="row small mb-2">
+                    <div class="col-6">
+                        <strong>DOT:</strong> {{ $data['DOT'] ?? '—' }}
+                    </div>
+                    <div class="col-6">
+                        <strong>MC:</strong> {{ $data['MC'] ?? '—' }}
+                    </div>
+                </div>
+
+                <div class="small mb-2">
+                    <strong>Email:</strong>
+                    <div class="text-primary">{{ $data['Email'] ?? '—' }}</div>
+
+                    <strong>Phone:</strong>
+                    <div>{{ $data['Phone'] ?? '—' }}</div>
+                </div>
+
+                <div class="small mb-2">
+                    <strong>Type:</strong> {{ $entity }} <br>
+                    <strong>Fleet:</strong> Units {{ $data['PowerUnits'] ?? 0 }} |
+                    Drivers {{ $data['Drivers'] ?? 0 }}
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mt-2">
+                    <span class="badge {{ $status === 'ACTIVE' ? 'bg-success' : 'bg-danger' }}">
+                        {{ $status ?: 'INACTIVE' }}
+                    </span>
+
+                    @if($isAuth)
+                        <span class="text-success fw-bold small">
+                            <i class="bi bi-check-circle-fill"></i> AUTHORIZED
+                        </span>
                     @else
-                        <span class="text-danger">NOT AUTHORIZED</span>
+                        <span class="text-danger fw-bold small">
+                            <i class="bi bi-x-circle-fill"></i> NOT AUTHORIZED
+                        </span>
                     @endif
-                </p>
-                <p><strong>Source:</strong> 
-                    <a href="{{ $data['Source'] ?? 'https://safer.fmcsa.dot.gov/CompanySnapshot.aspx' }}" target="_blank">
-                        Link
-                    </a>
-                </p>
-                <p><strong>Error:</strong> 
-                    @if(empty($data['Error']) || $data['Error'] === 'None')
-                        <span class="text-success">None</span>
-                    @else
-                        <span class="text-danger fw-bold">{{ $data['Error'] }}</span>
-                    @endif
-                </p>
+                </div>
+
             </div>
         </div>
-        @endif
     @endforeach
 </div>
 
+        </div>
+    @endif
+    </div>
+
+    <div id="loading" class="text-center py-5" style="display: none;">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2 fw-bold text-muted">Retrieving Records...</p>
     </div>
 </div>
-@else
-    <p class="mt-5">Please enter a MC number to fetch carrier data.</p>
-@endif
-</div>
-@if(isset($allData) && count($allData) > 0)
-<form method="POST" action="{{ route('fmcsa.export') }}" class="d-inline">
-    @csrf
-
-    <!-- Send fetched data safely -->
-    <input type="hidden" name="export_data" value='@json($allData)'>
-
-    <button type="submit" class="btn btn-success shadow-sm">
-        <i class="bi bi-file-earmark-excel-fill me-1"></i>
-        Export Data
-    </button>
-</form>
-
- @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-
-    <form method="POST" action="{{ route('emails.export') }}" class="d-inline">
-        @csrf
-        <input type="hidden" name="export_data" value='@json($allData)'>
-        <button type="submit" class="btn btn-success shadow-sm">
-            <i class="bi bi-file-earmark-excel-fill me-1"></i>
-            Export Emails
-        </button>
-    </form>
-    <button type="button" class="btn btn-primary shadow-sm" onclick="printSection('printSection')">
-    <i class="bi bi-printer-fill me-1"></i>
-    Print Emails
-</button>
-
-@endif
-
-
-   
-<style>
-@media print {
-    body * {
-        visibility: hidden; /* hide everything */
-    }
-
-    #printArea, #printArea * {
-        visibility: visible; /* show only print area */
-    }
-
-    #printArea {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-
-    table {
-        page-break-inside: auto;
-        border-collapse: collapse;
-    }
-
-    tr {
-        page-break-inside: avoid;
-        page-break-after: auto;
-    }
-
-    thead { 
-        display: table-header-group; /* repeat header on each page */
-    }
-
-    tfoot { 
-        display: table-footer-group; 
-    }
-}
-</style>
-
-
 
 <script>
-function printSection(sectionId) {
-    // Hide everything else except the section
-    var printContents = document.getElementById(sectionId).innerHTML;
-    var originalContents = document.body.innerHTML;
-
-    document.body.innerHTML = printContents; // replace body content with only section
-    window.print(); // trigger print
-    document.body.innerHTML = originalContents; // restore original page
-
-    // Optional: reload scripts/styles if needed
-    location.reload();
-}
-</script>
-
-
-
-
-</div>
-<script>
-    const form = document.getElementById('queryForm');
-    form.addEventListener('submit', function() {
-        // Show spinner
+    document.getElementById('queryForm').addEventListener('submit', function() {
         document.getElementById('loading').style.display = 'block';
-        // Hide table while processing
         document.getElementById('dataTableContainer').style.display = 'none';
     });
 </script>

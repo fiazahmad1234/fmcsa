@@ -22,13 +22,23 @@ class FmcsaController extends Controller
 
     public function fetch(Request $request)
     {
-        ini_set('max_execution_time', 1800);
+        ini_set('max_execution_time', 0);
         ini_set('memory_limit', '512M');
 
         $request->validate([
             'start_dot' => 'required|numeric',
             'end_dot'   => 'required|numeric'
         ]);
+        $start = (int) $request->start_dot;
+$end   = (int) $request->end_dot;
+
+if ($end < $start) {
+    return back()->with('error', 'End number must be greater than Start number.');
+}
+
+if (($end - $start) > 80) {
+    return back()->with('error', 'You can fetch maximum 80 numbers only at once.');
+}
 
         $start = (int) $request->start_dot;
         $end   = (int) $request->end_dot;

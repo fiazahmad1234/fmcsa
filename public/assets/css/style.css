@@ -471,3 +471,50 @@ background-color: #2c2f36;
 .main-banner{
     padding-top:80px !important;
 }
+
+
+
+/* Language dropdown container */
+.dropdown-language {
+    position: relative;
+}
+
+/* Hide dropdown by default */
+.lang-dropdown {
+    display: none;
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    list-style: none;
+    padding: 10px 0;
+    border-radius: 6px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    min-width: 120px;
+    text-align: center;
+}
+
+/* Dropdown links */
+.lang-dropdown li a {
+    display: block;
+    text-decoration: none;
+    color: #0e0d0d !important;
+}
+
+.lang-dropdown li a:hover {
+    background: #ffffff;
+}
+
+/* Show dropdown */
+.dropdown-language.active .lang-dropdown {
+    display: block;
+}
+.header-area .main-nav .nav li:last-child {
+  padding-right: 0px;
+  padding-left: 0px;
+}.header-area .main-nav .nav li:last-child a, .background-header .main-nav .nav li:last-child a {
+  color: #0d0101 !important;
+  padding: 0px 20px;
+  font-weight: 400;
+}

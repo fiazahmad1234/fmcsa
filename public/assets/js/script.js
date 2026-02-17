@@ -84,3 +84,4 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('popupModal').style.display = 'none';
     });
 });
+//google translate js
